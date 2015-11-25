@@ -1,4 +1,4 @@
-# TypeScript project with build and doc processes provided by gulp
+# Janux Security
 
 * Install by running:
 
