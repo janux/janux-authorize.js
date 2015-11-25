@@ -13,3 +13,8 @@
 
 
 	$ gulp default
+
+
+* Generate documentation in 'doc' directory:
+
+	$ gulp doc
