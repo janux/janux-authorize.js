@@ -1,10 +1,12 @@
-interface Account{
+import Set = collections.Set;
+
+interface Account extends AuthorizationHolder{
 	/** A unique name that identifies this Account - returns the same value as the getUsername inherited frmo the UserDetails interface */
-	getName(): String
-	setName(name: String ): void
+	getName(): string
+	setName(name: string ): void
 
 	/** A password that can be used for password authentication */
-	setPassword(password: String): void
+	setPassword(password: string): void
 
 	/** indicates whether the account is valid and can be used */
 	setEnabled(enabled: boolean): void
@@ -21,8 +23,8 @@ interface Account{
 	setPasswordExpiration(date: Date): void
 
 	/** The Roles that have been granted to this Account */
-	getRoles(): Array<Role>
-	setRoles(roles: Array<Role>): void
+	getRoles(): List<Role>
+	setRoles(roles: List<Role>): void
 
 	/** This Account's settings, if any */
 	getSettings(): Set<AccountSetting>

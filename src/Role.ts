@@ -1,15 +1,15 @@
-interface Role{
+interface Role extends AuthorizationHolder {
 	/** a unique short-hand name for this role */
-	getName(): String
-	setName(name: String): void
+	getName(): string
+	setName(name: string): void
 
 	/** Human readable description of this Role */
-	getDescription(): String
-	setDescription(description: String): void
+	getDescription(): string
+	setDescription(description: string): void
 
 	/** the sub-roles that this Role aggregates */
-	getRoles(): Array<Role>
-	setRoles(roles: Array<Role>): void
+	getRoles(): List<Role>
+	setRoles(roles: List<Role>): void
 
 	/** default order in which this Role should be displayed in the context of a Role display */
 	getSortOrder(): number
