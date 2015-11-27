@@ -1,10 +1,10 @@
 interface AccountSetting
 {
-	setTag(tag: String): void
-	getTag(): String
+	setTag(tag: string): void
+	getTag(): string
 	
-	setValue(value: String): void
-	getValue(): String
+	setValue(value: string): void
+	getValue(): string
 }
 
 
