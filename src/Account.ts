@@ -49,9 +49,5 @@ interface Account extends AuthorizationHolder{
 	/** The Roles that have been granted to this Account */
 	getRoles(): List<Role>
 	setRoles(roles: List<Role>): void
-
-	/** This Account's settings, if any */
-	getSettings(): Set<AccountSetting>
-	setSettings(settings: Set<AccountSetting>): void
 }
 
