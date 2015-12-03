@@ -20,13 +20,13 @@ interface AuthorizationHolder{
 	 * granted a Permission, whether directly or via a Sub-Role; the map is keyed by the
 	 * AuthorizationContext's Name
 	 */
-	getAuthorizationContexts(): { [key:string]: AuthorizationContext; }
+	// getAuthorizationContexts(): { [key:string]: AuthorizationContext; }
 	/** 
 	 * Given a AuthorizationContext, this method returns the permissions, represented as strings, that
 	 * this AuthorizationHolder Entity has in that permission context, or an empty array if the
 	 * AuthorizationHolder Entity has no permissions in that AuthorizationContext
 	 */
-	getPermissions(authorizationContext: string): string[]
+	// getPermissions(authorizationContext: string): string[]
 
 
 	/** 
@@ -54,7 +54,7 @@ interface AuthorizationHolder{
 	 *
 	 * @since 0.5.0
 	 */
-	can(permissionsValue: number, authorizationContext: string): boolean
+	// can(permissionsValue: number, authorizationContext: string): boolean
 
 
 	/** 
@@ -62,7 +62,7 @@ interface AuthorizationHolder{
 	 * AuthorizationContext, this method returns the permissions that this AuthorizationHolder Entity has
 	 * in that permission context, represented as a long value
 	 */
-	getPermissionsValue(authorizationContext: string): number
+	// getPermissionsValue(authorizationContext: string): number
 
 
 	/** 
@@ -86,14 +86,14 @@ interface AuthorizationHolder{
 	 * 	an array of strings representing permissions that are to be granted to this AuthorizationHolder
 	 * 	Entity, for example ["READ","UPDATE"]; the permissions must be available in the named AuthorizationContext
 	 */
-	grant(permissionsGranted: string[], authorizationContext: AuthorizationContext): void
+	grant(permissionsGranted: any, authorizationContext: AuthorizationContext): void
 
 
 	/** 
 	 * Same as {@link #grant(string[], AuthorizationContext)}
 	 * but takes a single permission as an argument, rather than an array 
 	 */
-	grant(permissionGranted: string, authorizationContext: AuthorizationContext): void
+	// grant(permissionGranted: string, authorizationContext: AuthorizationContext): void
 
 
 	/** 
@@ -114,7 +114,7 @@ interface AuthorizationHolder{
 	 * 	a long value representing permissions that are to be granted to this AuthorizationHolder Entity; 
 	 * 	the permissions must be available in the named AuthorizationContext
 	 */
-	grant(permissionsValue: number, authorizationContext: AuthorizationContext): void
+	// grant(permissionsValue: number, authorizationContext: AuthorizationContext): void
 
 	/**
 	 * Explicitly denies a set of Permissions within a AuthorizationContext; this method should be used
@@ -136,13 +136,13 @@ interface AuthorizationHolder{
 	 * again with the proper 'allow' bitmask that no longer enables the 'PURGE' permission.  
 	 * </p>
 	 */
-	deny(permissionsDenied: string[], authorizationContext: AuthorizationContext): void
+	// deny(permissionsDenied: string[], authorizationContext: AuthorizationContext): void
 
 	/** 
 	 * Same as {@link #deny(string[], AuthorizationContext)} 
 	 * but takes a single permission as an argument, rather than an array 
 	 */
-	deny(permissionDenied: string, authorizationContext: AuthorizationContext): void
+	// deny(permissionDenied: string, authorizationContext: AuthorizationContext): void
 
 	/**
 	 * Equivalent to {@link #deny(string[], AuthorizationContext)} in implementations that use
@@ -150,7 +150,7 @@ interface AuthorizationHolder{
 	 *
 	 * @see #deny(string[], AuthorizationContext)
 	 */
-	deny(permissionsDenied: number, authorizationContext: AuthorizationContext): void
+	// deny(permissionsDenied: number, authorizationContext: AuthorizationContext): void
 
 	/** If true, this Role is a super user with all Permissions */
 	isSuper(): boolean

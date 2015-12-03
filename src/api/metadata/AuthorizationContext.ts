@@ -22,8 +22,7 @@ import List = collections.LinkedList;
  ***************************************************************************************************
  */
 
-interface AuthorizationContext
-{
+interface AuthorizationContext {
 	/** A unique name for this AuthorizationContext, in the context of the Application */
 	getName(): string
 	setName(name: string): void
