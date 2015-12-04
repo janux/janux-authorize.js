@@ -198,4 +198,4 @@ class AuthorizationHolderBase implements AuthorizationHolder
         return out;
     }
 
-} // end class
+} // end class AuthorizationHolder
