@@ -1,10 +1,14 @@
-/// <reference path="../collections.ts" />
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../collections.ts" />
 
-import List = collections.LinkedList;
-import Dictionary = collections.Dictionary;
+import _ = require('lodash');
+import basarat = require('../collections');
+import collections = basarat.collections;
+import List = basarat.collections.LinkedList;
+import Dictionary = basarat.collections.Dictionary;
 import {iAuthorizationContext} from "../api/metadata/AuthorizationContext";
 import {iPermissionBit} from "../api/metadata/PermissionBit";
+import PermissionBit from "./PermissionBit";
 
 export default class AuthorizationContext implements iAuthorizationContext {
 
@@ -14,7 +18,10 @@ export default class AuthorizationContext implements iAuthorizationContext {
     private sortOrder:number;
     private enabled:boolean;
     private bits:List<iPermissionBit>;
-    private bitMap:Dictionary<String, iPermissionBit>;
+    private bitMap:Dictionary<string, iPermissionBit>;
+
+    private bit: Dictionary<string, PermissionBit>;  // stores permission bits indexed by name
+    private authBitList:Dictionary<number, PermissionBit>; // stores permission bits ordered by bit position
 
     constructor(aName:string, aDescription:string) {
         if (!_.isString(aName) || _.isEmpty(aName)) {
@@ -23,6 +30,10 @@ export default class AuthorizationContext implements iAuthorizationContext {
 
         this.name = aName;
         this.description = aDescription;
+
+        if(typeof this.authBitList == 'undefined'){
+            this.authBitList = new Dictionary<number, PermissionBit>();
+        }
     }
 
     getId():number {
@@ -52,11 +63,17 @@ export default class AuthorizationContext implements iAuthorizationContext {
         this.bits = permissionBits;
     }
 
-    getPermissionBit(name:string):iPermissionBit {
-        return this.getBitMap().getValue(name);
+    getPermissionBit(name:string): PermissionBit {
+        var pB = this.getBitMap().getValue(name);
+        if(typeof pB == 'undefined'){
+            return null;
+        }
+        else {
+            return pB;
+        }
     }
 
-    public addPermissionBit(permBit:iPermissionBit):void {
+    addPermissionBit(permBit: PermissionBit):void {
 
         if (!_.isString(permBit.getName())) {
             throw new Error('Attempting to add a PermissionBit without a name to PermissionContext' + this.name);
@@ -68,10 +85,14 @@ export default class AuthorizationContext implements iAuthorizationContext {
 
         permBit.setPosition(this.getMaxBitPosition() + 1);
         permBit.setAuthorizationContext(this);
-        this.getPermissionBits().add(permBit);
 
-        // force refresh of bitMap on next invocation of getBitMap
-        this.bitMap = null;
+        if(permBit.getSortOrder() == -1){
+            permBit.setSortOrder(permBit.getPosition());
+        }
+        // store bit by position
+        this.authBitList.setValue(permBit.getPosition(), permBit);
+        // store bit by name
+        this.bit.setValue(permBit.getName(), permBit);
     }
 
     getPermissionsAsNumber(permBitNames: string[]): number {
@@ -129,18 +150,11 @@ export default class AuthorizationContext implements iAuthorizationContext {
      * Busines Context and a Role, but that a PermissionBit Set does not confer any of these Permissions
      * per-se to any entity.
      */
-    protected getBitMap():Dictionary<String, iPermissionBit> {
-        if (this.bitMap == null) {
-            this.bitMap = new Dictionary<String, iPermissionBit>();
-
-            var pBit:(bit:iPermissionBit) => boolean =
-                function (bit:iPermissionBit):boolean {
-                    return this.bitMap.setValue(bit.getName(), bit);
-                };
-
-            this.getPermissionBits().forEach(pBit);
+    protected getBitMap():Dictionary<string, PermissionBit> {
+        if(typeof this.bit == 'undefined'){
+            this.bit = new Dictionary<string, PermissionBit>();
         }
-        return this.bitMap;
+        return this.bit;
     }
 
     /**
@@ -152,18 +166,9 @@ export default class AuthorizationContext implements iAuthorizationContext {
     private getMaxBitPosition():number {
         var maxBitPos:number = -1;
 
-        var pBit:(bit:iPermissionBit) => boolean =
-            function (bit:iPermissionBit):boolean {
+        this.bit.forEach((bName:string, bit:PermissionBit)=>{
                 maxBitPos = Math.max(bit.getPosition(), maxBitPos);
-                return !!maxBitPos;
-            };
-
-        this.getPermissionBits().forEach(pBit);
-
-        if (maxBitPos != (this.getPermissionBits().size() - 1)) {
-            var msg:string = 'The highest bit position is not equal to (permissionBits.size - 1) in AuthorizationContext: ' + this.getName();
-            throw new Error(msg);
-        }
+        });
 
         return maxBitPos;
     }
@@ -176,19 +181,24 @@ export default class AuthorizationContext implements iAuthorizationContext {
             out.description = this.description;
         }
 
-        for (var key in this.bits) {
+        this.bit.forEach((bName:string, bit: PermissionBit)=>{
             out.bit = out.bit || {};
             var aBit:any = {};
-            aBit.position = this.bits[key].position;
+            aBit.position = bit.getPosition();
 
             if (!doShortVersion) {
-                aBit.label = this.bits[key].label;
-                aBit.description = this.bits[key].description;
-                aBit.sortOrder = this.bits[key].sortOrder;
+                aBit.label = bit.getName();
+                aBit.description = bit.getDescription();
+                aBit.sortOrder = bit.getSortOrder();
             }
-            out.bit[key] = aBit;
-        }
+            out.bit[bit.getName()] = aBit;
+        });
         return out;
+    }
+
+    toString() {
+        // Short hand. Adds each own property
+        return collections.makeString(this);
     }
 
 } // end class AuthorizationContext
