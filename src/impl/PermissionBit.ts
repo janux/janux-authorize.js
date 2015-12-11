@@ -1,5 +1,13 @@
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../collections.ts" />
+
+import basarat = require('../collections');
+import collections = basarat.collections;
+
 import {iPermissionBit} from "../api/metadata/PermissionBit";
 import {iAuthorizationContext} from "../api/metadata/AuthorizationContext";
+
+import _ = require('lodash');
 
 export default class PermissionBit implements iPermissionBit {
     private name:string;
@@ -13,7 +21,7 @@ export default class PermissionBit implements iPermissionBit {
 
         this.setName(name);
         this.setDescription(description);
-        this.sortOrder = sortOrder;
+        this.sortOrder = _.isNumber(sortOrder) ? sortOrder : -1;
     }
 
     getName():string {
@@ -61,6 +69,11 @@ export default class PermissionBit implements iPermissionBit {
 
     setSortOrder(i:number):void {
         this.sortOrder = i;
+    }
+
+    toString() {
+        // Short hand. Adds each own property
+        return collections.makeString(this);
     }
 
 } // end class PermissionBitImpl
