@@ -1,5 +1,7 @@
 /// <reference path="../../collections.ts" />
-import List = collections.LinkedList;
+
+import basarat = require('../../collections');
+import List = basarat.collections.LinkedList;
 import {iPermissionBit} from "./PermissionBit";
 /**
  ***************************************************************************************************
