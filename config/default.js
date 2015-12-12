@@ -16,6 +16,7 @@ var cfg = {
 }; 
 
 cfg.fileset.ts = path.join(cfg.dir.src, '**','*.ts');
+cfg.fileset.tsTest = path.join(cfg.dir.test, '**','*.spec.ts');
 
 // files watched during the build
 cfg.fileset.watch = [
