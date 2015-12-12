@@ -11,17 +11,34 @@ import _ = require('lodash');
 
 export default class PermissionBit implements iPermissionBit {
     private name:string;
+    private _label:string;
     private position:number = -1;
 
     private description:string;
     private authContext:iAuthorizationContext;
     private sortOrder:number;
 
-    constructor(name:string, description:string, sortOrder?:number) {
+    constructor(name:string, description?:string, sortOrder?:number) {
+
+        if(!_.isString(name)){
+            throw new Error('Unable to create permissionBit with name that is not a string');
+        }else{
+            if(name == ''){
+                throw new Error('Unable to create permissionBit with an empty name');
+            }
+        }
 
         this.setName(name);
         this.setDescription(description);
         this.sortOrder = _.isNumber(sortOrder) ? sortOrder : -1;
+    }
+
+    get label():string {
+        return this._label;
+    }
+
+    set label(value:string) {
+        this._label = value;
     }
 
     getName():string {

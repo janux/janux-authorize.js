@@ -2,7 +2,9 @@
 
 import basarat = require('../../collections');
 import List = basarat.collections.LinkedList;
+import Dictionary = basarat.collections.Dictionary;
 import {iPermissionBit} from "./PermissionBit";
+import PermissionBit from "../../impl/PermissionBit";
 /**
  ***************************************************************************************************
  * An AuthorizationContext represents a set of individual Permissions defined for a specific business
@@ -36,7 +38,7 @@ export interface iAuthorizationContext {
 	 * Busines Context and a Role, but that a iPermissionBit Set does not confer any of these Permissions
 	 * per-se to any entity.
 	 */
-	getPermissionBits(): List<iPermissionBit>
+	getPermissionBits(): Dictionary<string, PermissionBit>
 
 	/** Returns a iPermissionBit by its unique name within the AuthorizationContext */
 	getPermissionBit(name:string): iPermissionBit

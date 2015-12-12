@@ -1,4 +1,8 @@
 /// <reference path="../typings/mocha/mocha.d.ts" />
+/// <reference path="../src/collections.ts" />
+
+import basarat = require('../src/collections');
+import collections = basarat.collections;
 import AuthorizationContext from '../src/impl/AuthorizationContext';
 import PermissionBit from '../src/impl/PermissionBit';
 
@@ -33,202 +37,154 @@ describe ('PermissionContext', () => {
         log.info('short version of permContext: %j', authContext.toJSON(true));
         log.info('short version of permContext: %s', util.inspect(authContext.toJSON(true)));
 
-        // the 'bit' object containing all the PermissionBits should be immutable
-        //expect(authContext.getPermissionBits()).to.be.instanceof(Object);
-        // authContext.bit = null;
+        var bit = authContext.getPermissionBit('READ');
+        // expect(bit).to.be.instanceof(PermissionBit);
+        expect(bit.getName()).to.equal('READ');
+        expect(bit.label).to.equal('READ');
+        expect(bit.getPosition()).to.equal(0);
+        expect(bit.getSortOrder()).to.equal(0);
 
-        //try {
-        //    delete authContext.bit;
-        //    fail('should not be able to delete permContext.bit');
-        //} catch (e) {
-        //    // no-op
-        //}
-        //
-        //expect(authContext.bit).to.be.instanceof(Object);
-        //
-        //// the individual bit object should also be immutable once created
-        //// (some of its fields may not, but the reference itself is)
-        //try {
-        //    permContext.bit.READ = null;
-        //    fail('should not be able to assign null to permContext.bit.READ');
-        //} catch (e) {
-        //    // no-op
-        //}
-        //
-        //try {
-        //    delete permContext.bit.READ;
-        //    fail('should not be able to delete permContext.bit.READ');
-        //} catch (e) {
-        //    // no-op
-        //}
-        //
-        //expect(permContext.bit).to.be.instanceof(Object);
-        //
-        //var bit = permContext.bit.READ;
-        //expect(bit).to.be.instanceof(Object);
-        //expect(bit.name).to.equal('READ');
-        //expect(bit.label).to.equal('READ');
-        //expect(bit.position).to.equal(0);
-        //expect(bit.sortOrder).to.equal(0);
-        //
-        //// name and position should be immutable
-        //try {
-        //    bit.name = 'MutedName';
-        //    fail('should not be able to assign to bit.name');
-        //} catch (e) {
-        //    // no-op
-        //}
-        //
-        //expect(bit.name).to.equal('READ');
-        //
-        //// name and position should be immutable
-        //try {
-        //    bit.position = -1;
-        //    fail('should not be able to assign to bit.possition');
-        //} catch (e) {
-        //    // no-op
-        //}
-        //
-        //expect(bit.position).to.equal(0);
-        //
         //// label, description and sortOrder are mutable
-        //var LABEL = 'View', DESCR = 'View a Person record', SORT = 999;
-        //bit.label = LABEL;
-        //bit.description = DESCR;
-        //bit.sortOrder = SORT;
-        //expect(bit.label).to.equal(LABEL);
-        //expect(bit.description).to.equal(DESCR);
-        //expect(bit.sortOrder).to.equal(SORT);
-        //
+        var LABEL = 'View', DESCR = 'View a Person record', SORT = 999;
+        bit.label = LABEL;
+        bit.setDescription(DESCR);
+        bit.setSortOrder(SORT);
+        expect(bit.label).to.equal(LABEL);
+        expect(bit.getDescription()).to.equal(DESCR);
+        expect(bit.getSortOrder()).to.equal(SORT);
+
         //// second bit has custom sortOrder
-        //bit = permContext.bit.UPDATE;
-        //expect(bit).to.be.instanceof(Object);
-        //expect(bit.name).to.equal('UPDATE');
-        //expect(bit.position).to.equal(1);
-        //expect(bit.sortOrder).to.equal(99);
-        //
-        //var bits = permContext.getPermissionBitsAsList();
-        //expect(bits).to.be.instanceof(Array);
+        bit = authContext.getPermissionBit('UPDATE');
+        // expect(bit).to.be.instanceof(PermissionBit);
+        expect(bit.getName()).to.equal('UPDATE');
+        expect(bit.getPosition()).to.equal(1);
+        expect(bit.getSortOrder()).to.equal(99);
+
+        var bits = authContext.getPermissionBitsAsList();
+        expect(bits).to.be.instanceof(Array);
     });
 
 
-    //it('should fail when adding an invalid PermissionBit', function() {
-    //    var err = true;
-    //
-    //    // null name should fail
-    //    try {
-    //        permContext.addPermissionBit();
-    //        err = false;
-    //        log.error('Should not be able to add permBit with a null name');
-    //    } catch (e) {
-    //        // this is what we expect
-    //        expect(e).to.be.instanceof(Error);
-    //    }
-    //
-    //    // empty name should fail
-    //    try {
-    //        permContext.addPermissionBit('');
-    //        log.error('Should not be able to add permBit with an empty name');
-    //        err = false;
-    //    } catch (e) {
-    //        expect(e).to.be.instanceof(Error);
-    //    }
-    //
-    //    // name that is not a string should fail
-    //    try {
-    //        permContext.addPermissionBit({});
-    //        log.error('Should not be able to add permBit with name that is not a string');
-    //        err = false;
-    //    } catch (e) {
-    //        expect(e).to.be.instanceof(Error);
-    //    }
-    //
-    //    permContext.addPermissionBit('READ');
-    //
-    //    // duplicate name should fail
-    //    try {
-    //        permContext.addPermissionBit('READ');
-    //        log.error('Should not be able to add permBit with a duplicate name');
-    //        err = false;
-    //    } catch (e) {
-    //        expect(e).to.be.instanceof(Error);
-    //    }
-    //
-    //    // we should not get this far, cause an explicit assertion failure;
-    //    // not sure of a better way to do this with chai
-    //    if (!err) {
-    //        expect('DidNot throw an Error').to.equal('Should throw an Error');
-    //    }
-    //});
-    //
-    //
-    //it('should properly convert permission strings to numeric representations', function() {
-    //
-    //    permContext.addPermissionBit('READ',   'Grants permission to READ a PERSON');
-    //    permContext.addPermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON');
-    //    permContext.addPermissionBit('CREATE', 'Grants permission to CREATE a PERSON');
-    //    permContext.addPermissionBit('DELETE', 'Grants permission to DELETE a PERSON', 99);
-    //
-    //    expect(permContext.getPermissionAsNumber('READ')).to.equal(1);
-    //    expect(permContext.getPermissionAsNumber('UPDATE')).to.equal(2);
-    //    expect(permContext.getPermissionAsNumber('CREATE')).to.equal(4);
-    //    expect(permContext.getPermissionAsNumber('DELETE')).to.equal(8);
-    //
-    //    expect(permContext.getPermissionsAsNumber([])).to.equal(0);
-    //    expect(permContext.getPermissionsAsNumber(['READ','UPDATE','DELETE'])).to.equal(1+2+8);
-    //    expect(permContext.getPermissionsAsNumber(['READ','CREATE','DELETE'])).to.equal(1+4+8);
-    //
-    //    var err = true;
-    //
-    //    try {
-    //        permContext.getPermissionAsNumber('REDA');
-    //        err = false;
-    //        log.error('Should fail to convert non-existent permission to number');
-    //    } catch (e) {
-    //        expect(e).to.be.instanceof(Error);
-    //    }
-    //
-    //    try {
-    //        permContext.getPermissionsAsNumber(['REDA','UPDATE']);
-    //        err = false;
-    //        log.error('Should fail to convert non-existent permission to number');
-    //    } catch (e) {
-    //        expect(e).to.be.instanceof(Error);
-    //    }
-    //
-    //    // we should not get this far, cause an explicit assertion failure;
-    //    if (!err) {
-    //        expect('DidNot throw an Error').to.equal('Should throw an Error');
-    //    }
-    //});
-    //
-    //it('should be deserialized via fromJSON', function() {
-    //    permContext.addPermissionBit('READ', 'Grants permission to READ a PERSON');
-    //    permContext.addPermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON', 99);
-    //
-    //    // full version
-    //    var permContext2 = PermissionContext.fromJSON(permContext.toJSON());
-    //    var name, bit, bit2;
-    //    expect(permContext2.name).to.equal(permContext.name);
-    //    expect(permContext2.description).to.equal(permContext.description);
-    //    for (name in permContext.bit) {
-    //        bit  = permContext.bit[name];
-    //        bit2 = permContext2.bit[name];
-    //
-    //        expect(bit.position).to.equal(bit2.position);
-    //        expect(bit.description).to.equal(bit2.description);
-    //        expect(bit.sortOrder).to.equal(bit2.sortOrder);
-    //    }
-    //
-    //    // short version
-    //    permContext2 = PermissionContext.fromJSON(permContext.toJSON(true));
-    //    expect(permContext2.name).to.equal(permContext.name);
-    //    for (name in permContext.bit) {
-    //        bit  = permContext.bit[name];
-    //        bit2 = permContext2.bit[name];
-    //        expect(bit.position).to.equal(bit2.position);
-    //    }
-    //});
+    it('should fail when adding an invalid PermissionBit', function() {
+        var err = true;
+
+        // null name should fail
+        try {
+            authContext.addPermissionBit(new PermissionBit());
+            err = false;
+            log.error('Should not be able to add permBit with a null name');
+        } catch (e) {
+            // this is what we expect
+            expect(e).to.be.instanceof(Error);
+        }
+
+        // empty name should fail
+        try {
+            authContext.addPermissionBit(new PermissionBit(''));
+            log.error('Should not be able to add permBit with an empty name');
+            err = false;
+        } catch (e) {
+            expect(e).to.be.instanceof(Error);
+        }
+
+        // without permissionBit
+        try {
+            authContext.addPermissionBit();
+            log.error('Should not be able to add permBit without an instance of PermissionBit');
+            err = false;
+        } catch (e) {
+            expect(e).to.be.instanceof(Error);
+        }
+
+        authContext.addPermissionBit( new PermissionBit('READ') );
+
+        // duplicate name should fail
+        try {
+            authContext.addPermissionBit( new PermissionBit('READ') );
+            log.error('Should not be able to add permBit with a duplicate name');
+            err = false;
+        } catch (e) {
+            expect(e).to.be.instanceof(Error);
+        }
+
+        // we should not get this far, cause an explicit assertion failure;
+        // not sure of a better way to do this with chai
+        if (!err) {
+            expect('DidNot throw an Error').to.equal('Should throw an Error');
+        }
+    });
+
+
+    it('should properly convert permission strings to numeric representations', function() {
+
+        authContext.addPermissionBit( new PermissionBit('READ',   'Grants permission to READ a PERSON') );
+        authContext.addPermissionBit( new PermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON') );
+        authContext.addPermissionBit( new PermissionBit('CREATE', 'Grants permission to CREATE a PERSON') );
+        authContext.addPermissionBit( new PermissionBit('DELETE', 'Grants permission to DELETE a PERSON', 99) );
+
+        expect(authContext.getPermissionAsNumber('READ')).to.equal(1);
+        expect(authContext.getPermissionAsNumber('UPDATE')).to.equal(2);
+        expect(authContext.getPermissionAsNumber('CREATE')).to.equal(4);
+        expect(authContext.getPermissionAsNumber('DELETE')).to.equal(8);
+
+        expect(authContext.getPermissionsAsNumber([])).to.equal(0);
+        expect(authContext.getPermissionsAsNumber(['READ','UPDATE','DELETE'])).to.equal(1+2+8);
+        expect(authContext.getPermissionsAsNumber(['READ','CREATE','DELETE'])).to.equal(1+4+8);
+
+        var err = true;
+
+        try {
+            authContext.getPermissionAsNumber('REDA');
+            err = false;
+            log.error('Should fail to convert non-existent permission to number');
+        } catch (e) {
+            expect(e).to.be.instanceof(Error);
+        }
+
+        try {
+            authContext.getPermissionsAsNumber(['REDA','UPDATE']);
+            err = false;
+            log.error('Should fail to convert non-existent permission to number');
+        } catch (e) {
+            expect(e).to.be.instanceof(Error);
+        }
+
+        // we should not get this far, cause an explicit assertion failure;
+        if (!err) {
+            expect('DidNot throw an Error').to.equal('Should throw an Error');
+        }
+    });
+
+    it('should be deserialized via fromJSON', function() {
+        authContext.addPermissionBit( new PermissionBit('READ', 'Grants permission to READ a PERSON') );
+        authContext.addPermissionBit( new PermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON', 99) );
+
+        // full version
+        var authContext2 = AuthorizationContext.fromJSON(authContext.toJSON());
+        var bit, bit2;
+
+        expect(authContext2.getName()).to.equal(authContext.getName());
+        expect(authContext2.getDescription()).to.equal(authContext.getDescription());
+
+        authContext.getPermissionBits().forEach((bitName: string, cBit: PermissionBit)=>{
+            bit  = authContext.getPermissionBit(bitName);
+            bit2 = authContext2.getPermissionBit(bitName);
+
+            expect(bit.getPosition()).to.equal(bit2.getPosition());
+            expect(bit.getDescription()).to.equal(bit2.getDescription());
+            expect(bit.getSortOrder()).to.equal(bit2.getSortOrder());
+        });
+
+        // short version
+        authContext2 = AuthorizationContext.fromJSON(authContext.toJSON(true));
+        expect(authContext2.getName()).to.equal(authContext.getName());
+
+        authContext.getPermissionBits().forEach((bitName: string, cBit: PermissionBit)=>{
+            bit  = authContext.getPermissionBit(bitName);
+            bit2 = authContext2.getPermissionBit(bitName);
+            expect(bit.getPosition()).to.equal(bit2.getPosition());
+        });
+    });
 
 
     // assertions

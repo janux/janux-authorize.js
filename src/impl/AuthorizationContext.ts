@@ -17,11 +17,11 @@ export default class AuthorizationContext implements iAuthorizationContext {
     private description:string;
     private sortOrder:number;
     private enabled:boolean;
-    private bits:List<iPermissionBit>;
-    private bitMap:Dictionary<string, iPermissionBit>;
 
-    private bit: Dictionary<string, PermissionBit>;  // stores permission bits indexed by name
-    private authBitList:Dictionary<number, PermissionBit>; // stores permission bits ordered by bit position
+    // stores permission bits indexed by name
+    private _bit: Dictionary<string, PermissionBit> = new Dictionary<string, PermissionBit>();
+    // stores permission bits ordered by bit position
+    private authBitList:Dictionary<number, PermissionBit> = new Dictionary<number, PermissionBit>();
 
     constructor(aName:string, aDescription:string) {
         if (!_.isString(aName) || _.isEmpty(aName)) {
@@ -52,19 +52,22 @@ export default class AuthorizationContext implements iAuthorizationContext {
         this.name = name;
     }
 
-    getPermissionBits():List<iPermissionBit> {
-        if (this.bits == null)
-            this.bits = new List<iPermissionBit>();
-
-        return this.bits;
+    getPermissionBits(): Dictionary<string, PermissionBit> {
+        return this._bit;
     }
 
-    protected setPermissionBits(permissionBits:List<iPermissionBit>):void {
-        this.bits = permissionBits;
+    getPermissionBitsAsList(): Array<PermissionBit> {
+        var out: Array<PermissionBit> = new Array<PermissionBit>();
+
+        this.authBitList.forEach((kBit: number, bit:PermissionBit)=>{
+            out[kBit] = bit;
+        });
+
+        return out;
     }
 
     getPermissionBit(name:string): PermissionBit {
-        var pB = this.getBitMap().getValue(name);
+        var pB = this.getBitMap().getValue(name); // this.getBitMap().getValue(name);
         if(typeof pB == 'undefined'){
             return null;
         }
@@ -83,6 +86,7 @@ export default class AuthorizationContext implements iAuthorizationContext {
             throw new Error('A permission bit with name: ' + name + ' already exists in PermissionContext ' + this.name);
         }
 
+        permBit.label = permBit.getName();
         permBit.setPosition(this.getMaxBitPosition() + 1);
         permBit.setAuthorizationContext(this);
 
@@ -92,23 +96,36 @@ export default class AuthorizationContext implements iAuthorizationContext {
         // store bit by position
         this.authBitList.setValue(permBit.getPosition(), permBit);
         // store bit by name
-        this.bit.setValue(permBit.getName(), permBit);
+        this._bit.setValue(permBit.getName(), permBit);
+    }
+
+    getPermissionAsNumber(permBitName: string): number {
+        var permValue: number;
+
+        if (!_.isString(permBitName)) {
+            throw new Error ( 'Argument to getPermissionAsNumber must be a string');
+        }
+
+        var bit = this._bit.getValue(permBitName);
+
+        if (!_.isObject(bit)) {
+            throw new Error ('Cannot convert permission '+permBitName+' to number: it does not exist in PermissionContext '+ this.name);
+        }
+        permValue = Math.pow(2, bit.getPosition());
+
+        return permValue;
     }
 
     getPermissionsAsNumber(permBitNames: string[]): number {
-        var permsValue: number = 0;
+        if (!_.isArray(permBitNames)) {
+            throw new Error ('Argument to getPermissionsAsNumber must be an array of strings');
+        }
 
-        for(var i in permBitNames){
-            var permName: string = permBitNames[i];
-            if (this.getPermissionBit(permName) != null) {
-                permsValue += this.getPermissionBit(permName).getValue();
-            } else {
-                var msg:string = 'The permission ' + permName + ' is not defined in the Permission Context ' + this.getName();
-                throw new Error(msg);
-            }
-        };
+        var sumPerms = (out, perm) => {
+            return out + this.getPermissionAsNumber(perm);
+        }
 
-        return permsValue;
+        return  _.reduce(permBitNames, sumPerms, 0);
     }
 
     getValue(permBitNames:string[]):number {
@@ -151,10 +168,7 @@ export default class AuthorizationContext implements iAuthorizationContext {
      * per-se to any entity.
      */
     protected getBitMap():Dictionary<string, PermissionBit> {
-        if(typeof this.bit == 'undefined'){
-            this.bit = new Dictionary<string, PermissionBit>();
-        }
-        return this.bit;
+        return this._bit;
     }
 
     /**
@@ -166,14 +180,41 @@ export default class AuthorizationContext implements iAuthorizationContext {
     private getMaxBitPosition():number {
         var maxBitPos:number = -1;
 
-        this.bit.forEach((bName:string, bit:PermissionBit)=>{
+        // _.forEach(this._bit, function (bit: PermissionBit, bName: string) {
+        this._bit.forEach((bName:string, bit:PermissionBit)=>{
                 maxBitPos = Math.max(bit.getPosition(), maxBitPos);
         });
 
         return maxBitPos;
     }
 
-    public toJSON(doShortVersion:boolean):any {
+    /**
+     * Passing the 'doShortVersion' boolean flag will return a barebones representation of the
+     * PermissionContext; this is useful when serializing to JSON PermissionHolder entities (Role,
+     * Account) that need to know about the PermissionContext metadata, but where it's desirable to keep
+     * those JSON strings from being overly verbose.  The default JSON representation will return something
+     * like:
+     *
+     * {"name":"PERSON",
+	*   "description":"Defines permissions available on a Person entity",
+	*   "typeName":"janux.security.PermissionContext",
+	*   "bit":{
+	*     "READ":{"position":0,"label":"READ","description":"Grants permission to READ a PERSON","sortOrder":0},
+	*     "UPDATE":{"position":1,"label":"UPDATE","description":"Grants permission to UPDATE a PERSON","sortOrder":99}
+	*   }
+	* }
+     *
+     * whereas the short representation of the same PermissionContext would return:
+     *
+     * {"name":"PERSON",
+	*   "bit":{
+	*     "READ":{"position":0},
+	*     "UPDATE":{"position":1}
+	*   }
+	* }
+     *
+     */
+    public toJSON(doShortVersion?:boolean):any {
         var out:any = {};
         out.name = this.name;
 
@@ -181,7 +222,8 @@ export default class AuthorizationContext implements iAuthorizationContext {
             out.description = this.description;
         }
 
-        this.bit.forEach((bName:string, bit: PermissionBit)=>{
+        // _.forEach(this.bit, function (bit: PermissionBit, bName: string) {
+        this._bit.forEach((bName:string, bit: PermissionBit)=>{
             out.bit = out.bit || {};
             var aBit:any = {};
             aBit.position = bit.getPosition();
@@ -199,6 +241,14 @@ export default class AuthorizationContext implements iAuthorizationContext {
     toString() {
         // Short hand. Adds each own property
         return collections.makeString(this);
+    }
+
+    /** deserializes a PermissionContext from its canonical toJSON representation */
+    static fromJSON(obj: any): AuthorizationContext {
+        var out =  new AuthorizationContext(obj.name, obj.description) // exports.createInstance(obj.name, obj.description);
+        var bitlist = _.pairs(obj.bit);
+        _.each(bitlist, function(tuple) { out.addPermissionBit( new PermissionBit(tuple[0], tuple[1].description, tuple[1].sortOrder) ); });
+        return out;
     }
 
 } // end class AuthorizationContext
