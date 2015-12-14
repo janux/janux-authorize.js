@@ -18,3 +18,7 @@
 * Generate documentation in 'doc' directory:
 
 	$ gulp doc
+
+* Compile and run tests (also compiles the project files in their own directories)
+
+    $ gulp test
