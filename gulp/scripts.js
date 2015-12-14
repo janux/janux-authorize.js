@@ -11,7 +11,13 @@ var	ts = require('gulp-typescript'),
 module.exports = function(gulp) {
 	
 	var cfg = gulp.cfg;
-	
+
+	var tsConfig = {
+		sortOutput: true,
+		module: "commonjs",
+		removeComments: true
+	};
+
 	//
 	// Lint all custom TypeScript files.
 	//
@@ -25,15 +31,11 @@ module.exports = function(gulp) {
 	//
 	gulp.task('ts', ['ts-lint'], function () {
 		console.log('compiling ts files...');
-		var tsResult =  gulp.src(cfg.fileset.ts)
+		var tsComp =  gulp.src(cfg.fileset.ts)
 		.pipe(sourcemaps.init()) // This means sourcemaps will be generated
-		.pipe(ts({
-			sortOutput: true,
-			module: "commonjs",
-			removeComments: true	
-		}));
-	
-		return tsResult.js
+		.pipe(ts(tsConfig));
+
+		return tsComp.js
 		.pipe(concat(cfg.file.app))
 		.pipe(sourcemaps.write()) // sourcemaps are added to the .js file
 		.pipe(gulp.dest(cfg.dir.build));	
