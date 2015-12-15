@@ -16,15 +16,15 @@ var
     util   = require('util')
     ;
 
-var log = log4js.getLogger('PermissionContext_test');
+var log = log4js.getLogger('AuthorizationContext_test');
 
-describe ('PermissionContext', () => {
+describe ('AuthorizationContext', () => {
     // default timeout is 2000 ms
     // this.timeout(30000)
     var authContext: AuthorizationContext;
 
     // run before every test in the suite
-    beforeEach(function() {
+    beforeEach(() => {
         authContext = new AuthorizationContext('PERSON', 'Defines permissions available on a Person entity');
     });
 
