@@ -1,3 +1,11 @@
+/// <reference path="../collections.ts" />
+
+import basarat = require('../collections');
+import collection = basarat.collections;
+import List = collection.LinkedList;
+import {iAuthorizationHolder} from './AuthorizationHolder';
+import Role from '../impl/Role';
+
 /**
  ***************************************************************************************************
  * Roles are hierarchical constructs that aggregate Permissions and other Roles and make it possible
@@ -61,7 +69,7 @@
  ***************************************************************************************************
  */
 
-interface Role extends AuthorizationHolder {
+export interface iRole extends iAuthorizationHolder {
 	/** a unique short-hand name for this role */
 	getName(): string
 	setName(name: string): void

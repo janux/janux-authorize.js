@@ -1,29 +1,53 @@
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../collections.ts" />
+
+import _ = require('lodash');
+import basarat = require('../collections');
+import collections = basarat.collections;
+import Dictionary = collections.Dictionary;
+import List = collections.LinkedList;
+import AuthorizationHolder from './AuthorizationHolder';
+import AuthorizationContext from './AuthorizationContext';
+import {iRole} from '../api/Role';
+
 /**
  * @author  <a href="mailto:philippe.paravicini@janux.org">Philippe Paravicini</a>
  * @version $Revision: 1.8 $ - $Date: 2007-01-11 23:13:10 $
  */
-class RoleImpl extends AuthorizationHolderBase implements Role
+
+export default class Role extends AuthorizationHolder implements iRole
 {
-    private id: number;
+    protected roles: List<Role>;
+    protected name: string;
     private description: string;
-    private sortOrder: number;
+    private sortOrder: number = 0;
     private enabled: boolean = true;
 
     protected permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>;
 
-    constructor(name: string, description: string, roles: List<Role>, permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>)
+    constructor(aName: string, aDescription?: string)
     {
-        super(name, roles, permissionsGranted);
-        this.setDescription(description);
+        super();
+        this.setName(aName);
+        this.setDescription(aDescription);
     }
 
-    getId(): number {
-        return this.id;
+    public getRoles(): List<Role> {
+        if (this.roles == null) { this.roles = new List<Role>(); }
+        return this.roles;
     }
 
-    setId(id: number): void {
-        this.id = id;
+    public setRoles(aggrRoles: List<Role>): void {
+        this.roles = aggrRoles;
     }
+
+    //getName(): string {
+    //    return this.name;
+    //}
+    //
+    //setName(description: string): void {
+    //    this.name = name;
+    //}
 
     getDescription(): string {
         return this.description;
@@ -61,7 +85,24 @@ class RoleImpl extends AuthorizationHolderBase implements Role
         this.enabled = enabled;
     }
 
-} // end class RoleImpl
+    toString() {
+        // Short hand. Adds each own property
+        return collections.makeString(this);
+    }
+
+    /** static method that deserializes a Role from its canonical toJSON representation */
+   static fromJSON(obj: any): Role {
+        var out = new Role(obj.name, obj.description);
+        out.sortOrder = obj.sortOrder;
+        _.each(obj.authContexts, (authContext:any) => {
+            out.grant(obj.permissions[authContext.name].grant, AuthorizationContext.fromJSON(authContext));
+        });
+        if (obj.isAlmighty) out.setAlmighty(true);
+
+        return out;
+    }
+
+} // end class Role
 
 function applyMixins(derivedCtor: any, baseCtors: any[]) {
     baseCtors.forEach(baseCtor => {
