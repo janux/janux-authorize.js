@@ -28,7 +28,7 @@ describe ('AuthorizationContext', () => {
         authContext = new AuthorizationContext('PERSON', 'Defines permissions available on a Person entity');
     });
 
-    it('should be able to add/retrieve PermissionBits', function() {
+    it('should be able to add/retrieve PermissionBits', () => {
 
         authContext.addPermissionBit( new PermissionBit('READ', 'Grants permission to READ a PERSON') );
         authContext.addPermissionBit( new PermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON', 99) );
@@ -65,7 +65,7 @@ describe ('AuthorizationContext', () => {
     });
 
 
-    it('should fail when adding an invalid PermissionBit', function() {
+    it('should fail when adding an invalid PermissionBit', () => {
         var err = true;
 
         // null name should fail
@@ -115,7 +115,7 @@ describe ('AuthorizationContext', () => {
     });
 
 
-    it('should properly convert permission strings to numeric representations', function() {
+    it('should properly convert permission strings to numeric representations', () => {
 
         authContext.addPermissionBit( new PermissionBit('READ',   'Grants permission to READ a PERSON') );
         authContext.addPermissionBit( new PermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON') );
@@ -155,7 +155,7 @@ describe ('AuthorizationContext', () => {
         }
     });
 
-    it('should be deserialized via fromJSON', function() {
+    it('should be deserialized via fromJSON', () => {
         authContext.addPermissionBit( new PermissionBit('READ', 'Grants permission to READ a PERSON') );
         authContext.addPermissionBit( new PermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON', 99) );
 
