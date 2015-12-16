@@ -15,7 +15,8 @@ module.exports = function(gulp) {
 	var tsConfig = {
 		sortOutput: true,
 		module: "commonjs",
-		removeComments: true
+		removeComments: true,
+		target:'ES5'
 	};
 
 	//
