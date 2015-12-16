@@ -1,6 +1,14 @@
 /// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../collections.ts" />
 
+import _ = require('lodash');
+import basarat = require('../collections');
+import collections = basarat.collections;
 import Dictionary = collections.Dictionary;
+import List = collections.LinkedList;
+import AuthorizationContext from './AuthorizationContext';
+import {iAuthorizationHolder} from '../api/AuthorizationHolder';
+import Role from './Role';
 
 /**
  ***************************************************************************************************
@@ -12,10 +20,9 @@ import Dictionary = collections.Dictionary;
  * @version $Revision: 1.8 $ - $Date: 2007-12-27 00:51:17 $
  ***************************************************************************************************
  */
-class AuthorizationHolderBase implements AuthorizationHolder
+export default class AuthorizationHolder implements iAuthorizationHolder
 {
-    protected _name:string;
-    // protected roles: List<Role>;
+    protected name:string;
     protected _isSuper:boolean;
 
     // protected  authContexts: Dictionary<string, AuthorizationContext>;
@@ -25,78 +32,48 @@ class AuthorizationHolderBase implements AuthorizationHolder
     /** this is declared as protected simply for testing purposes */
     protected permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>;
 
-    private permsUnionMap: { [key:string]: number; };
+    //constructor(name: string, roles: List<Role>, permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>) {
+    //    this._name = name;
+    //    this.roles = roles;
+    //    this.permissionsGranted = permissionsGranted;
+    //}
 
-    constructor(name: string, permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}> = null) {
-        this._name = name;
-        //this.roles = roles;
-        this.permissionsGranted = permissionsGranted;
-    }
+    constructor(){}
 
     public getName(): string {
-        return this._name;
+        return this.name;
     }
 
     public setName(name: string): void {
-        this._name = name;
+        this.name = name;
     }
 
-    //public getRoles(): List<Role> {
-    //    if (this.roles == null) { this.roles = new List<Role>(); }
-    //    return this.roles;
-    //}
-    //
-    //public setRoles(aggrRoles: List<Role>): void {
-    //    this.roles = aggrRoles;
-    //}
+    grant(permsGranted: string[]|number, authContext: AuthorizationContext): AuthorizationHolder {
 
-    grant(permsGranted: any, authContext: AuthorizationContext): void {
-
-        permsGranted = (typeof(permsGranted) === 'string') ?  [permsGranted]: permsGranted;
-
-        var permsNumber: number = _.isArray(permsGranted) ? authContext.getPermissionsAsNumber(permsGranted) : permsGranted;
-
-        this.validatePermissions(authContext, permsNumber);
-
-        console.log('granting permissions ' + permsGranted + ' in AuthorizationContext ' + authContext.getName() + ' to entity ' + this._name);
-
-        // if the permission granted is 0, remove the record; note that this will
-        // not revoke all permissions for this AuthorizationContext, as there may be
-        // other permissions in this AuthorizationContext that are inherited from the
-        // Roles of this entity
-        if (permsGranted == 0)
-            this.getPermissionsGranted().remove(authContext.getName());
-        else
-            this.setPermissionGranted(authContext, false, permsNumber);
-
-        // recompute union of inherited and granted permissions
-        this.permsUnionMap = null;
-    }
-
-    /**
-     * validates that the perms provided are between 0 and authContext.getMaxValue(),
-     * @throws IllegalArgumentException the perms provided are not between 0 and authContext.getMaxValue(),
-     */
-    private validatePermissions(authContext: AuthorizationContext, perms: number): void {
-        var msg: string = null;
-
-        if (authContext == null) {
-            msg = 'Attempting to assign permissions to entity ' + this._name + ' with null AuthorizationContext';
+        if (!_.isArray(permsGranted) && !_.isNumber(permsGranted)) {
+            throw new Error("You must pass either a number or an array of string permissions when granting permissions");
         }
-        else if ( perms < 0 ) {
-            msg = 'Attempting to assign a negative permission bitmask in the context of AuthorizationContext ' + authContext.getName() + ' to entity ' + this._name;
+
+        else if (authContext == null) {
+            throw new Error('Attempting to assign permissions to entity ' + this.name + ' with null AuthorizationContext');
         }
-        else if ( perms > authContext.getMaxValue() ) {
-            msg = 'The permission bitmask that you are trying to assign: ' + perms
+
+        var permsValue = _.isArray(permsGranted) ? authContext.getPermissionsAsNumber(permsGranted) : permsGranted;
+
+        if ( permsValue > authContext.getMaxValue() ) {
+            throw new Error( 'The permission bitmask that you are trying to assign: ' + permsValue
                 + ' has a value greater than the maximum ' + authContext.getMaxValue()
                 + ' that can be assigned in the context of AuthorizationContext ' + authContext.getName()
-                + ' to entity ' + this._name;
+                + ' to entity ' + this.name);
         }
 
-        if (msg != null) {
-            console.error(msg);
-            throw new Error(msg);
+        if (permsValue > 0) {
+            this.setPermissionGranted(authContext, false, permsValue);
+        } else {
+            this.getPermissionsGranted().remove(authContext.getName());
         }
+        return this;
+
     }
 
     /** Grant a permission directly to this Role */
@@ -118,19 +95,19 @@ class AuthorizationHolderBase implements AuthorizationHolder
         return this.permissionsGranted;
     }
 
-    hasPermissions(authContextName: string, permNames: string[]): boolean {
+    hasPermissions(permNames: string[], authContextName: string): boolean {
 
         // almighty users have all permissions for now (TODO: add 'deny' mechanism)
-        if (this.isAlmighty) { return true; }
+        if (this.isAlmighty()) { return true; }
 
         var permsGranted = this.permissionsGranted.getValue(authContextName);
         if (!_.isObject(permsGranted)) { return false; }
 
-        var permContext = permsGranted.context;
+        var authContext = permsGranted.context;
         var requiredPerms = -1;
         try
         {
-            requiredPerms = permContext.getPermissionsAsNumber(permNames);
+            requiredPerms = authContext.getPermissionsAsNumber(permNames);
         }
         catch (e)
         {
@@ -146,14 +123,19 @@ class AuthorizationHolderBase implements AuthorizationHolder
         return match === requiredPerms;
     }
 
-    hasPermission(authContextName: string, permissionName: string): boolean {
+    hasPermission(permissionName: string, authContextName: string): boolean {
         var perm:string[] = [permissionName];
-        return this.hasPermissions(authContextName, perm);
+        return this.hasPermissions(perm, authContextName);
     }
 
     can(permNames: string|string[], authContextName: string): boolean {
-        var perms:string[] = (!_.isArray(permNames)) ? [permNames] : permNames;
-        return this.can(perms, authContextName);
+        if (_.isArray(permNames)) {
+            return this.hasPermissions(permNames, authContextName);
+        } else if (_.isString(permNames)) {
+            return this.hasPermission(permNames, authContextName);
+        } else {
+            return false;
+        }
     }
 
     isSuper(): boolean {
@@ -161,7 +143,7 @@ class AuthorizationHolderBase implements AuthorizationHolder
     }
 
     setSuper(isSuper: boolean): void {
-        console.log('Setting ', this._name, 'to Super User!');
+        console.log('Setting ', this.name, 'to Super User!');
         this._isSuper = isSuper;
     }
 
@@ -173,9 +155,9 @@ class AuthorizationHolderBase implements AuthorizationHolder
         this.setSuper(isAlmighty);
     }
 
-    toJSON(): AuthorizationHolderBase {
+    toJSON(): any {
         var out = _.clone(this);
-        delete out.permissionsGranted
+        delete out.permissionsGranted;
         delete out._isSuper;
         var perm;
         // outputs permissionsGranted separately from permissionsContexts to make json msg more readable
@@ -184,18 +166,22 @@ class AuthorizationHolderBase implements AuthorizationHolder
         //   "ACCOUNT":{"deny":7,}   // revokes inherited permissions, not yet implemented
         //   "EQUIPMENT":{"grant":3, "deny":4} // edge case, not yet implemented
         // }
-        for (var key in this.permissionsGranted) {
+        this.permissionsGranted.forEach((contextName: string, pGranted: {context: AuthorizationContext, grant: number})=>{
             out.permissions = out.permissions || {};
-            perm = this.permissionsGranted[key];
-            out.permissions[key] = {};
-            if (perm.grant) {out.permissions[key].grant = perm.grant;}
-            if (perm.deny)  {out.permissions[key].deny  = perm.deny;}
+            perm = pGranted;
+            out.permissions[contextName] = {};
+            if (perm.grant) {out.permissions[contextName].grant = perm.grant;}
+            if (perm.deny)  {out.permissions[contextName].deny  = perm.deny;}
 
             out.authContexts = out.authContexts || [];
             out.authContexts.push(perm.context.toJSON(true)); // true = doShortVersion
-        }
-
+        });
         return out;
+    }
+
+    toString() {
+        // Short hand. Adds each own property
+        return collections.makeString(this);
     }
 
 } // end class AuthorizationHolder

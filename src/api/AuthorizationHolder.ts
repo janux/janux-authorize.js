@@ -1,3 +1,5 @@
+import AuthorizationContext from "../impl/AuthorizationContext";
+
 /**
  *************************************************************************************************
  * This interface defines classes that may have permissions granted to them; as of this
@@ -13,7 +15,7 @@
  *************************************************************************************************
  */
 
-interface AuthorizationHolder{
+export interface iAuthorizationHolder{
 	
 	/** 
 	 * Returns a map of all the AuthorizationContexts in which this AuthorizationHolder Entity has been
