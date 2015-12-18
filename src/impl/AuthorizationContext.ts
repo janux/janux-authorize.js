@@ -76,10 +76,24 @@ export default class AuthorizationContext implements iAuthorizationContext {
         }
     }
 
-    addPermissionBit(permBit: PermissionBit):void {
+    /**
+     * Adds a PermissionBit to this PermissionContext, makes sure that there are no two PermissionBits
+     * with the same name and that the value of PermissionBit.position is sequential and without
+     * gaps
+     */
+    addPermissionBit(permissionBit: PermissionBit): void;
+    addPermissionBit(bitName?: string, bitDescr?: string, sortOrder?: number): void;
+    addPermissionBit(arg?: string | PermissionBit, bitDescr?: string, sortOrder?: number): void {
 
-        if (!_.isString(permBit.getName())) {
-            throw new Error('Attempting to add a PermissionBit without a name to PermissionContext' + this.name);
+        var permBit: PermissionBit;
+
+        if(typeof arg === 'string'){
+            permBit = new PermissionBit(arg, bitDescr, sortOrder);
+        }else if(typeof arg === 'object'){
+            permBit = arg;
+        }
+        else{
+            throw new Error('Unable to add permissionBit, wrong parameters. The first parameter can only be string or PermissionBit');
         }
 
         if (this.getPermissionBit(permBit.getName()) != null) {

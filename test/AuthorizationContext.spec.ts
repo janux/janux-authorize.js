@@ -30,8 +30,10 @@ describe ('AuthorizationContext', () => {
 
     it('should be able to add/retrieve PermissionBits', () => {
 
+        // Add a permission bit with a new instance of PermissionBit
         authContext.addPermissionBit( new PermissionBit('READ', 'Grants permission to READ a PERSON') );
-        authContext.addPermissionBit( new PermissionBit('UPDATE', 'Grants permission to UPDATE a PERSON', 99) );
+        // Add a permission bit providing the name. Optionally description and sortOrder.
+        authContext.addPermissionBit( 'UPDATE', 'Grants permission to UPDATE a PERSON', 99 );
 
         log.info('permContext after adding PermissionBits: %j', authContext);
         log.info('short version of permContext: %j', authContext.toJSON(true));
@@ -80,7 +82,7 @@ describe ('AuthorizationContext', () => {
 
         // empty name should fail
         try {
-            authContext.addPermissionBit(new PermissionBit(''));
+            authContext.addPermissionBit( '' );
             log.error('Should not be able to add permBit with an empty name');
             err = false;
         } catch (e) {

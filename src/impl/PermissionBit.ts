@@ -18,7 +18,7 @@ export default class PermissionBit implements iPermissionBit {
     private authContext:iAuthorizationContext;
     private sortOrder:number;
 
-    constructor(name:string, description?:string, sortOrder?:number) {
+    constructor(name?:string, description?:string, sortOrder?:number) {
 
         if(!_.isString(name)){
             throw new Error('Unable to create permissionBit with name that is not a string');
