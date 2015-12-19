@@ -1,5 +1,11 @@
-import Set = collections.Set;
+/// <reference path="../collections.ts" />
 
+import basarat = require('../collections');
+import collections = basarat.collections;
+import Set = collections.Set;
+import List = collections.LinkedList;
+import Role from '../impl/Role';
+import {iAuthorizationHolder} from '../api/AuthorizationHolder';
 /**
  ***************************************************************************************************
  * Represents a login account in the application, could also have been called a User or a Principal,
@@ -24,7 +30,7 @@ import Set = collections.Set;
  ***************************************************************************************************
  */
 
-interface Account extends AuthorizationHolder{
+export interface iAccount extends iAuthorizationHolder {
 	/** A unique name that identifies this Account - returns the same value as the getUsername inherited frmo the UserDetails interface */
 	getName(): string
 	setName(name: string ): void
@@ -46,8 +52,5 @@ interface Account extends AuthorizationHolder{
 	getPasswordExpiration(): Date
 	setPasswordExpiration(date: Date): void
 
-	/** The Roles that have been granted to this Account */
-	getRoles(): List<Role>
-	setRoles(roles: List<Role>): void
 }
 

@@ -24,6 +24,7 @@ export default class AuthorizationHolder implements iAuthorizationHolder
 {
     protected name:string;
     protected _isSuper:boolean;
+    protected roles: List<Role>;
 
     // protected  authContexts: Dictionary<string, AuthorizationContext>;
     protected authContexts: string[];
@@ -31,12 +32,6 @@ export default class AuthorizationHolder implements iAuthorizationHolder
 
     /** this is declared as protected simply for testing purposes */
     protected permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>;
-
-    //constructor(name: string, roles: List<Role>, permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>) {
-    //    this._name = name;
-    //    this.roles = roles;
-    //    this.permissionsGranted = permissionsGranted;
-    //}
 
     constructor(){}
 
@@ -46,6 +41,15 @@ export default class AuthorizationHolder implements iAuthorizationHolder
 
     public setName(name: string): void {
         this.name = name;
+    }
+
+    public getRoles(): List<Role> {
+        if (this.roles == null) { this.roles = new List<Role>(); }
+        return this.roles;
+    }
+
+    public setRoles(aggrRoles: List<Role>): void {
+        this.roles = aggrRoles;
     }
 
     grant(permsGranted: string[]|number, authContext: AuthorizationContext): AuthorizationHolder {

@@ -1,4 +1,11 @@
-import AuthorizationContext from "../impl/AuthorizationContext";
+/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../collections.ts" />
+
+import basarat = require('../collections');
+import collections = basarat.collections;
+import List = collections.LinkedList;
+import AuthorizationContext from '../impl/AuthorizationContext';
+import Role from '../impl/Role';
 
 /**
  *************************************************************************************************
@@ -164,7 +171,11 @@ export interface iAuthorizationHolder{
 	isAlmighty(): boolean 
 
 	/** Alias for {@link #setSuper} */
-	setAlmighty(isAlmighty: boolean): void	
+	setAlmighty(isAlmighty: boolean): void
+
+	/** the sub-roles that this Role aggregates */
+	getRoles(): List<Role>
+	setRoles(roles: List<Role>): void
 }
 
 

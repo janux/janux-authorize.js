@@ -17,7 +17,6 @@ import {iRole} from '../api/Role';
 
 export default class Role extends AuthorizationHolder implements iRole
 {
-    protected roles: List<Role>;
     protected name: string;
     private description: string;
     private sortOrder: number = 0;
@@ -30,15 +29,6 @@ export default class Role extends AuthorizationHolder implements iRole
         super();
         this.setName(aName);
         this.setDescription(aDescription);
-    }
-
-    public getRoles(): List<Role> {
-        if (this.roles == null) { this.roles = new List<Role>(); }
-        return this.roles;
-    }
-
-    public setRoles(aggrRoles: List<Role>): void {
-        this.roles = aggrRoles;
     }
 
     //getName(): string {
@@ -83,11 +73,6 @@ export default class Role extends AuthorizationHolder implements iRole
 
     setEnabled(enabled: boolean): void {
         this.enabled = enabled;
-    }
-
-    toString() {
-        // Short hand. Adds each own property
-        return collections.makeString(this);
     }
 
     /** static method that deserializes a Role from its canonical toJSON representation */

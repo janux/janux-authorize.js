@@ -78,10 +78,6 @@ export interface iRole extends iAuthorizationHolder {
 	getDescription(): string
 	setDescription(description: string): void
 
-	/** the sub-roles that this Role aggregates */
-	getRoles(): List<Role>
-	setRoles(roles: List<Role>): void
-
 	/** default order in which this Role should be displayed in the context of a Role display */
 	getSortOrder(): number
 	setSortOrder(sortOrder: number): void
