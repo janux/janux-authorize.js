@@ -115,7 +115,8 @@ define(function (require, exports) {
         });
     };
 
-    User.prototype.account = Account.Account.createInstance();
+    _.assign(User.prototype, Account.Account.prototype);
+    // .account = createInstance();
 
     exports.createInstance = function createInstance() {
         var out = new User();
