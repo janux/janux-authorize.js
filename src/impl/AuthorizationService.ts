@@ -83,9 +83,3 @@ role['SYS_ADMIN'] = new Role('SYS_ADMIN', 'System Administrator with all privile
 role['SYS_ADMIN'].setAlmighty(true);
 
 // console.log('role.SYS_ADMIN:', JSON.stringify(role.SYS_ADMIN));
-
-/**
- * Given a Role, return a map of the permissionsContexts in this role has been
- * granted permissions
- */
-

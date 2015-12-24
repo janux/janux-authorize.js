@@ -7,9 +7,8 @@ import collections = basarat.collections;
 import List = collections.LinkedList;
 import AuthorizationHolder from './AuthorizationHolder';
 import {iAccount} from '../api/Account';
-import Role from './Role';
 
-export class Account extends AuthorizationHolder implements iAccount {
+export class Account implements iAccount {
 
     protected name: string;
     private password: string;
@@ -18,10 +17,14 @@ export class Account extends AuthorizationHolder implements iAccount {
     private nonLocked: boolean;
     private enabled: boolean = true;
 
-    private permsManager: AuthorizationHolder;
+    constructor(){ }
 
-    constructor(){
-        super();
+    getName():string {
+        return this.name;
+    }
+
+    setName(aName:string):void {
+        this.name = aName;
     }
 
     getUsername(): string {
@@ -47,7 +50,6 @@ export class Account extends AuthorizationHolder implements iAccount {
     setExpiration(date: Date): void {
         this.expire = date;
     }
-
 
     getPasswordExpiration(): Date {
         return this.expirePassword;

@@ -1,3 +1,5 @@
+'use strict';
+
 /// <reference path="../typings/mocha/mocha.d.ts" />
 /// <reference path="../src/collections.ts" />
 

@@ -1,3 +1,5 @@
+'use strict';
+
 /// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../collections.ts" />
 
@@ -31,7 +33,7 @@ export default class AuthorizationContext implements iAuthorizationContext {
         this.name = aName;
         this.description = aDescription;
 
-        if(typeof this.authBitList == 'undefined'){
+        if(typeof this.authBitList === 'undefined'){
             this.authBitList = new Dictionary<number, PermissionBit>();
         }
     }
@@ -68,7 +70,7 @@ export default class AuthorizationContext implements iAuthorizationContext {
 
     getPermissionBit(name:string): PermissionBit {
         var pB = this.getBitMap().getValue(name); // this.getBitMap().getValue(name);
-        if(typeof pB == 'undefined'){
+        if(typeof pB === 'undefined'){
             return null;
         }
         else {
@@ -104,7 +106,7 @@ export default class AuthorizationContext implements iAuthorizationContext {
         permBit.setPosition(this.getMaxBitPosition() + 1);
         permBit.setAuthorizationContext(this);
 
-        if(permBit.getSortOrder() == -1){
+        if(permBit.getSortOrder() === -1){
             permBit.setSortOrder(permBit.getPosition());
         }
         // store bit by position
@@ -263,6 +265,10 @@ export default class AuthorizationContext implements iAuthorizationContext {
         var bitlist = _.pairs(obj.bit);
         _.each(bitlist, function(tuple) { out.addPermissionBit( new PermissionBit(tuple[0], tuple[1].description, tuple[1].sortOrder) ); });
         return out;
+    }
+
+    static createInstance(aName:string, aDescription:string) {
+        return new AuthorizationContext(aName, aDescription);
     }
 
 } // end class AuthorizationContext

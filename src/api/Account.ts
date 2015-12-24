@@ -30,7 +30,7 @@ import {iAuthorizationHolder} from '../api/AuthorizationHolder';
  ***************************************************************************************************
  */
 
-export interface iAccount extends iAuthorizationHolder {
+export interface iAccount {
 	/** A unique name that identifies this Account - returns the same value as the getUsername inherited frmo the UserDetails interface */
 	getName(): string
 	setName(name: string ): void
