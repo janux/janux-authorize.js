@@ -14,6 +14,10 @@ import PermissionBit from "./PermissionBit";
 
 export default class AuthorizationContext implements iAuthorizationContext {
 
+    get typeName():string {
+        return 'janux.security.AuthorizationContext';
+    }
+
     private id:number;
     private name:string;
     private description:string;

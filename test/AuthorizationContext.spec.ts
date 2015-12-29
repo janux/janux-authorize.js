@@ -23,12 +23,31 @@ var log = log4js.getLogger('AuthorizationContext_test');
 describe ('AuthorizationContext', () => {
     // default timeout is 2000 ms
     // this.timeout(30000)
+    var TYPE_NAME = 'janux.security.AuthorizationContext';
     var authContext: AuthorizationContext;
 
     // run before every test in the suite
     beforeEach(() => {
         authContext = new AuthorizationContext('PERSON', 'Defines permissions available on a Person entity');
     });
+
+    it('should instantiate with basic fields', function() {
+        log.info('authContext after creation: %j', authContext);
+        expect(authContext.typeName).to.equal(TYPE_NAME);
+        // expect(authContext.spec()).to.be.instanceof(Object);
+    });
+
+
+    it('typeName should be immutable', function() {
+        expect(authContext.typeName).to.equal(TYPE_NAME);
+        try {
+            authContext.typeName = 'somethingElse';
+            expect.fail('should not be able to assign to typeName');
+        } catch (e) {
+            // no-op
+        }
+        expect(authContext.typeName).to.equal(TYPE_NAME);
+    });    
 
     it('should be able to add/retrieve PermissionBits', () => {
 
@@ -37,9 +56,9 @@ describe ('AuthorizationContext', () => {
         // Add a permission bit providing the name. Optionally description and sortOrder.
         authContext.addPermissionBit( 'UPDATE', 'Grants permission to UPDATE a PERSON', 99 );
 
-        log.info('permContext after adding PermissionBits: %j', authContext);
-        log.info('short version of permContext: %j', authContext.toJSON(true));
-        log.info('short version of permContext: %s', util.inspect(authContext.toJSON(true)));
+        log.info('authContext after adding PermissionBits: %j', authContext);
+        log.info('short version of authContext: %j', authContext.toJSON(true));
+        log.info('short version of authContext: %s', util.inspect(authContext.toJSON(true)));
 
         var bit = authContext.getPermissionBit('READ');
         // expect(bit).to.be.instanceof(PermissionBit);
