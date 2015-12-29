@@ -15,11 +15,12 @@ var
     util   = require('util')
     ;
 
-//var log = log4js.getLogger('AuthorizationHolder_test');
+var log = log4js.getLogger('AuthorizationHolder_test');
 
 describe ('AuthorizationHolderSetup', () => {
     // default timeout is 2000 ms
     // this.timeout(30000)
+    var TYPE_NAME = 'janux.security.AuthorizationHolder';
     var authHolder, authContext;
 
     // run once before the test suite below
@@ -38,6 +39,25 @@ describe ('AuthorizationHolderSetup', () => {
             authHolder = new AuthorizationHolder();
         });
 
+        it('should instantiate with basic fields', function() {
+            log.debug('authHolder after creation: %j', authHolder);
+            expect(authHolder.typeName).to.equal(TYPE_NAME);
+            // expect(authHolder.spec()).to.be.instanceof(Object);
+        });
+
+        it('typeName should be immutable', function() {
+            expect(authHolder.typeName).to.equal(TYPE_NAME);
+
+            try {
+                authHolder.typeName = 'somethingElse';
+                expect.fail('should not be able to assign to authHolder.typeName');
+            } catch(e) {
+                // no-op
+            }
+
+            expect(authHolder.typeName).to.equal(TYPE_NAME);
+        });        
+        
         function assertPermissions(authHolder) {
             expect(authHolder.hasPermission('READ', 'PERSON')).to.equal(true);
             expect(authHolder.hasPermissions(['READ','UPDATE'] , 'PERSON')).to.equal(true);

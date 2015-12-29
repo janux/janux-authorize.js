@@ -22,8 +22,12 @@ import Role from './Role';
  */
 export default class AuthorizationHolder implements iAuthorizationHolder
 {
+    get typeName():string {
+        return 'janux.security.AuthorizationHolder';
+    }
+
     protected name:string;
-    protected _isSuper:boolean;
+    protected _isAlmighty:boolean;
     protected roles: List<Role>;
 
     // protected  authContexts: Dictionary<string, AuthorizationContext>;
@@ -35,20 +39,12 @@ export default class AuthorizationHolder implements iAuthorizationHolder
 
     constructor(){}
 
-    public getName(): string {
-        return this.name;
-    }
-
-    public setName(name: string): void {
-        this.name = name;
-    }
-
-    public getRoles(): List<Role> {
+    getRoles(): List<Role> {
         if (this.roles == null) { this.roles = new List<Role>(); }
         return this.roles;
     }
 
-    public setRoles(aggrRoles: List<Role>): void {
+    setRoles(aggrRoles: List<Role>): void {
         this.roles = aggrRoles;
     }
 
@@ -142,27 +138,19 @@ export default class AuthorizationHolder implements iAuthorizationHolder
         }
     }
 
-    isSuper(): boolean {
-        return this._isSuper;
-    }
-
-    setSuper(isSuper: boolean): void {
-        console.log('Setting ', this.name, 'to Super User!');
-        this._isSuper = isSuper;
-    }
-
     isAlmighty(): boolean {
-        return this.isSuper();
+        return this._isAlmighty;
     }
 
     setAlmighty(isAlmighty: boolean): void {
-        this.setSuper(isAlmighty);
+        this._isAlmighty = isAlmighty;
     }
 
     toJSON(): any {
         var out = _.clone(this);
         delete out.permissionsGranted;
-        delete out._isSuper;
+        delete out._isAlmighty;
+
         var perm;
         // outputs permissionsGranted separately from permissionsContexts to make json msg more readable
         // "permissions": {
