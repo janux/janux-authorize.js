@@ -71,22 +71,22 @@ describe ('', ()=> {
 
         it('should instantiate with basic fields', ()=> {
             log.debug('role after creation: %j', role);
-            //expect(role.typeName).to.equal(TYPE_NAME);
+            expect(role.typeName).to.equal(TYPE_NAME);
             expect(role.getName()).to.equal(ROLE_NAME);
             expect(role.getDescription()).to.equal(ROLE_DESCR);
             expect(role.getSortOrder()).to.equal(0);
         });
 
-        //it('typeName should be immutable', ()=> {
-        //    expect(role.typeName).to.equal(TYPE_NAME);
-        //    try {
-        //        role.typeName = 'somethingElse';
-        //        fail('role.typeName should be immutable');
-        //    } catch (e) {
-        //        //no-op
-        //    }
-        //    expect(role.typeName).to.equal(TYPE_NAME);
-        //});
+        it('typeName should be immutable', ()=> {
+            expect(role.typeName).to.equal(TYPE_NAME);
+            try {
+                role.typeName = 'somethingElse';
+                expect.fail('role.typeName should be immutable');
+            } catch (e) {
+                //no-op
+            }
+            expect(role.typeName).to.equal(TYPE_NAME);
+        });
 
         it('should be possible to grant permissions to a Role', ()=> {
             role.grant(['READ','UPDATE','TRASH'], personAuthContext)

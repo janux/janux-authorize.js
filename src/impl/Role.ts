@@ -17,12 +17,14 @@ import {iRole} from '../api/Role';
 
 export default class Role extends AuthorizationHolder implements iRole
 {
+    get typeName():string {
+        return 'janux.security.Role';
+    }
+
     protected name: string;
     private description: string;
     private sortOrder: number = 0;
     private enabled: boolean = true;
-
-    protected permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>;
 
     constructor(aName: string, aDescription?: string)
     {
@@ -31,13 +33,13 @@ export default class Role extends AuthorizationHolder implements iRole
         this.setDescription(aDescription);
     }
 
-    //getName(): string {
-    //    return this.name;
-    //}
-    //
-    //setName(description: string): void {
-    //    this.name = name;
-    //}
+    getName(): string {
+        return this.name;
+    }
+
+    setName(name: string): void {
+        this.name = name;
+    }
 
     getDescription(): string {
         return this.description;
@@ -45,14 +47,6 @@ export default class Role extends AuthorizationHolder implements iRole
 
     setDescription(description: string): void {
         this.description = description;
-    }
-
-    protected getPermissionsGranted(): Dictionary<string, {context: AuthorizationContext, grant: number}> {
-
-        if (this.permissionsGranted == null){
-            this.permissionsGranted = new Dictionary<string, {context: AuthorizationContext, grant: number}>();
-        }
-        return this.permissionsGranted;
     }
 
     protected setPermissionsGranted(permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>): void {
