@@ -5,7 +5,7 @@
 
 import basarat = require('../src/collections');
 import collections = basarat.collections;
-import AuthorizationContext from '../src/impl/AuthorizationContext';
+import {AuthorizationContext} from '../src/impl/AuthorizationContext';
 import PermissionBit from '../src/impl/PermissionBit';
 
 import chai = require('chai');

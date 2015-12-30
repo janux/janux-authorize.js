@@ -1,6 +1,6 @@
 /// <reference path="../typings/mocha/mocha.d.ts" />
 
-import AuthorizationContext from "../src/impl/AuthorizationContext";
+import {AuthorizationContext} from "../src/impl/AuthorizationContext";
 var AuthService = require('../src/impl/AuthorizationService');
 
 import chai = require('chai');

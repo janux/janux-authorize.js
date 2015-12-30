@@ -12,13 +12,12 @@ import {iAuthorizationContext} from "../api/metadata/AuthorizationContext";
 import {iPermissionBit} from "../api/metadata/PermissionBit";
 import PermissionBit from "./PermissionBit";
 
-export default class AuthorizationContext implements iAuthorizationContext {
+export class AuthorizationContext implements iAuthorizationContext {
 
     get typeName():string {
         return 'janux.security.AuthorizationContext';
     }
 
-    private id:number;
     private name:string;
     private description:string;
     private sortOrder:number;
@@ -40,14 +39,6 @@ export default class AuthorizationContext implements iAuthorizationContext {
         if(typeof this.authBitList === 'undefined'){
             this.authBitList = new Dictionary<number, PermissionBit>();
         }
-    }
-
-    getId():number {
-        return this.id;
-    }
-
-    setId(id:number):void {
-        this.id = id;
     }
 
     getName():string {

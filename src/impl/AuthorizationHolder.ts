@@ -6,9 +6,9 @@ import basarat = require('../collections');
 import collections = basarat.collections;
 import Dictionary = collections.Dictionary;
 import List = collections.LinkedList;
-import AuthorizationContext from './AuthorizationContext';
+import {AuthorizationContext} from './AuthorizationContext';
 import {iAuthorizationHolder} from '../api/AuthorizationHolder';
-import Role from './Role';
+import {Role} from './Role';
 
 /**
  ***************************************************************************************************
@@ -20,7 +20,7 @@ import Role from './Role';
  * @version $Revision: 1.8 $ - $Date: 2007-12-27 00:51:17 $
  ***************************************************************************************************
  */
-export default class AuthorizationHolder implements iAuthorizationHolder
+export class AuthorizationHolder implements iAuthorizationHolder
 {
     get typeName():string {
         return 'janux.security.AuthorizationHolder';

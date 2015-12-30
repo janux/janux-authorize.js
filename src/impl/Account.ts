@@ -5,7 +5,7 @@ import _ = require('lodash');
 import basarat = require('../collections');
 import collections = basarat.collections;
 import List = collections.LinkedList;
-import AuthorizationHolder from './AuthorizationHolder';
+import {AuthorizationHolder} from './AuthorizationHolder';
 import {iAccount} from '../api/Account';
 
 export class Account implements iAccount {

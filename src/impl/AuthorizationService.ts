@@ -1,9 +1,9 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
 import _ = require('lodash');
-import AuthorizationContext from './AuthorizationContext';
+import {AuthorizationContext} from './AuthorizationContext';
 import PermissionBit from './PermissionBit';
-import Role from './Role';
+import {Role} from './Role';
 import util = require('util');
 
 /**

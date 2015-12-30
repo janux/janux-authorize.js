@@ -4,8 +4,8 @@
 import basarat = require('../collections');
 import collections = basarat.collections;
 import List = collections.LinkedList;
-import AuthorizationContext from '../impl/AuthorizationContext';
-import Role from '../impl/Role';
+import {AuthorizationContext} from '../impl/AuthorizationContext';
+import {Role} from '../impl/Role';
 
 /**
  *************************************************************************************************
@@ -97,34 +97,6 @@ export interface iAuthorizationHolder{
 	 */
 	grant(permissionsGranted: any, authorizationContext: AuthorizationContext): void
 
-
-	/** 
-	 * Same as {@link #grant(string[], AuthorizationContext)}
-	 * but takes a single permission as an argument, rather than an array 
-	 */
-	// grant(permissionGranted: string, authorizationContext: AuthorizationContext): void
-
-
-	/** 
-	 * In the case of an implementation that uses bitmasks to store permissions, and given a
-	 * permission context and a long value representing multiple permissions available in that
-	 * context, this method grants the permissions indicated to this AuthorizationHolder Entity.
-	 * <p>
-	 * Note that it's more explicit to use 
-	 * {@link #grant(string[], AuthorizationContext)}, and possibly
-	 * safer since some implementations may not use bitmasks
-	 * </p>
-	 *
-	 * @see #grant(string[],AuthorizationContext)
-	 * @see #deny
-	 *
-	 * @param authorizationContext a valid AuthorizationContext
-	 * @param permissionsValue
-	 * 	a long value representing permissions that are to be granted to this AuthorizationHolder Entity; 
-	 * 	the permissions must be available in the named AuthorizationContext
-	 */
-	// grant(permissionsValue: number, authorizationContext: AuthorizationContext): void
-
 	/**
 	 * Explicitly denies a set of Permissions within a AuthorizationContext; this method should be used
 	 * only to deny permissions that are inherited from Roles associated to this AuthorizationHolder
@@ -162,15 +134,9 @@ export interface iAuthorizationHolder{
 	// deny(permissionsDenied: number, authorizationContext: AuthorizationContext): void
 
 	/** If true, this Role is a super user with all Permissions */
-	isSuper(): boolean
+	isAlmighty(): boolean
 
 	/** set/unset whether this AuthorizationHolder is a super user with all Permissions */
-	setSuper(isSuper: boolean ): void
-
-	/** Alias for {@link #isSuper} */
-	isAlmighty(): boolean 
-
-	/** Alias for {@link #setSuper} */
 	setAlmighty(isAlmighty: boolean): void
 
 	/** the sub-roles that this Role aggregates */

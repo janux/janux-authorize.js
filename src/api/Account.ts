@@ -4,8 +4,9 @@ import basarat = require('../collections');
 import collections = basarat.collections;
 import Set = collections.Set;
 import List = collections.LinkedList;
-import Role from '../impl/Role';
+import {Role} from '../impl/Role';
 import {iAuthorizationHolder} from '../api/AuthorizationHolder';
+
 /**
  ***************************************************************************************************
  * Represents a login account in the application, could also have been called a User or a Principal,

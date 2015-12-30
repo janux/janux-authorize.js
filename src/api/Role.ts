@@ -4,7 +4,7 @@ import basarat = require('../collections');
 import collection = basarat.collections;
 import List = collection.LinkedList;
 import {iAuthorizationHolder} from './AuthorizationHolder';
-import Role from '../impl/Role';
+import {Role} from '../impl/Role';
 
 /**
  ***************************************************************************************************
