@@ -8,8 +8,8 @@ import basarat = require('../collections');
 import collections = basarat.collections;
 import List = basarat.collections.LinkedList;
 import Dictionary = basarat.collections.Dictionary;
-import {iAuthorizationContext} from "../api/metadata/AuthorizationContext";
-import {iPermissionBit} from "../api/metadata/PermissionBit";
+import {iAuthorizationContext} from "../api/AuthorizationContext";
+import {iPermissionBit} from "../api/PermissionBit";
 import PermissionBit from "./PermissionBit";
 
 export class AuthorizationContext implements iAuthorizationContext {

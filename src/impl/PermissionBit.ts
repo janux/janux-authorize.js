@@ -4,8 +4,8 @@
 import basarat = require('../collections');
 import collections = basarat.collections;
 
-import {iPermissionBit} from "../api/metadata/PermissionBit";
-import {iAuthorizationContext} from "../api/metadata/AuthorizationContext";
+import {iPermissionBit} from "../api/PermissionBit";
+import {iAuthorizationContext} from "../api/AuthorizationContext";
 
 import _ = require('lodash');
 
