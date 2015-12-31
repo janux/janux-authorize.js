@@ -9,7 +9,7 @@
 		
 		$ npm install tsd -g
 
-* Build by running:
+* Compile project and place it in the build directory:
 
 
 	$ gulp default
