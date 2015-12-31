@@ -1,3 +1,5 @@
+'use strict';
+
 /// <reference path="../../typings/tsd.d.ts" />
 
 import _ = require('lodash');
