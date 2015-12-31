@@ -33,5 +33,12 @@ cfg.jshint = {
 	reporter: 'default'
 };
 
+cfg.tsConfig = {
+	sortOutput: true,
+	module: "commonjs",
+	removeComments: true,
+	target:'ES5'
+};
+
 module.exports = cfg;
 
