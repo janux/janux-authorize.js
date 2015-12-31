@@ -67,32 +67,19 @@ export class AuthorizationHolder implements iAuthorizationHolder
                 + ' to entity ' + this.name);
         }
 
+        if (this.permissionsGranted == null) {
+            this.permissionsGranted = new Dictionary<string, {context: AuthorizationContext, grant: number}>();
+        }
+
         if (permsValue > 0) {
-            this.setPermissionGranted(authContext, false, permsValue);
+            this.permissionsGranted.setValue(
+                authContext.getName(),
+                { context: <AuthorizationContext> authContext, grant: <number> permsValue }
+            );
         } else {
-            this.getPermissionsGranted().remove(authContext.getName());
+            this.permissionsGranted.remove(authContext.getName());
         }
         return this;
-
-    }
-
-    /** Grant a permission directly to this Role */
-    private setPermissionGranted(authContext: AuthorizationContext, isDeny: boolean, value: number): void {
-        this.getPermissionsGranted().setValue(
-            authContext.getName(),
-            { context: <AuthorizationContext> authContext, grant: <number> value }
-        );
-    }
-
-    /**
-     * @return a Map of the permissions held directly by this AuthorizationHolder,
-     * rather than those inherited from a Role
-     */
-    protected getPermissionsGranted(): Dictionary<string, {context: AuthorizationContext, grant: number }> {
-        if (this.permissionsGranted == null)
-            this.permissionsGranted = new Dictionary<string, {context: AuthorizationContext, grant: number}>();
-
-        return this.permissionsGranted;
     }
 
     hasPermissions(permNames: string[], authContextName: string): boolean {
