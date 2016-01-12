@@ -83,4 +83,8 @@ export class Role extends AuthorizationHolder implements iRole
         return out;
     }
 
+    static createInstance(aName: string, aDescription?: string) {
+        return new Role(aName, aDescription);
+    }
+
 } // end class Role
