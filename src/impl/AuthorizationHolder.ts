@@ -35,7 +35,8 @@ export class AuthorizationHolder implements iAuthorizationHolder
     protected permissions: Object;
 
     /** this is declared as protected simply for testing purposes */
-    protected permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>;
+    protected permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>
+		= new Dictionary<string, {context: AuthorizationContext, grant: number}>();
 
     constructor(){}
 
