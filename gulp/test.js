@@ -14,7 +14,7 @@ module.exports = function(gulp) {
     //
     // Compile TypeScript and include references to library and app .d.ts files.
     //
-    gulp.task('ts-test', function () {
+    gulp.task('ts-plus-test', function () {
         console.log('compiling project source files for test...');
 
         return  gulp.src([cfg.fileset.ts, cfg.fileset.tsTest])
@@ -26,8 +26,8 @@ module.exports = function(gulp) {
             }));
     });
 
-    gulp.task('test', ['ts-test'], function() {
-        return gulp.src(cfg.dir.test+'/*.spec.js', {read: false})
-            .pipe(mocha({reporter: 'nyan'}));
-    });
+	gulp.task('run-tests', ['ts-plus-test'], function() {
+		return gulp.src(gulp.cfg.dir.test+'/*.spec.js', {read: false})
+			.pipe(mocha({reporter: 'nyan'}));
+	});
 };
