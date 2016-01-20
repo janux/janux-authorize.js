@@ -11,7 +11,7 @@ import {iAuthorizationContext} from "../api/AuthorizationContext";
 
 import _ = require('lodash');
 
-export default class PermissionBit implements iPermissionBit {
+export class PermissionBit implements iPermissionBit {
     private name:string;
     private _label:string;
     private position:number = -1;

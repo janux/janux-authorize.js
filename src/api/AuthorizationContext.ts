@@ -4,7 +4,7 @@ import basarat = require('../collections');
 import List = basarat.collections.LinkedList;
 import Dictionary = basarat.collections.Dictionary;
 import {iPermissionBit} from "./PermissionBit";
-import PermissionBit from "../impl/PermissionBit";
+import {PermissionBit} from "../impl/PermissionBit";
 /**
  ***************************************************************************************************
  * An AuthorizationContext represents a set of individual Permissions defined for a specific business
