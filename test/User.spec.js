@@ -9,7 +9,7 @@ var
     ;
 
 var
-    User = require('../demo/User'),
+    User = require('./User'),
     AuthorizationContext = require('../index').AuthorizationContext
     ;
 var log = log4js.getLogger('User_test');
