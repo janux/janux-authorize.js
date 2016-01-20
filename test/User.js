@@ -1,7 +1,7 @@
 'use strict';
 
 var
-    tools = require('../src/tools'),
+    tools = require('../dist/tools'),
     Account = require('../index').Account,
     AuthorizationHolder = require('../index').AuthorizationHolder
     ;
