@@ -22,7 +22,7 @@ for (var filename in taskDir) {
 //
 // Compile typescript project
 //
-gulp.task('default', ['ts']);
+gulp.task('default', ['clean:build','ts']);
 
 //
 // Compile and run tests for typescript project

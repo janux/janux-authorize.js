@@ -3,7 +3,8 @@
 // compile and run TypeScript test files
 //
 
-var	ts = require('gulp-typescript'),
+var	path     = require('path'),
+	ts = require('gulp-typescript'),
     mocha = require('gulp-mocha'),
     sourcemaps = require('gulp-sourcemaps');
 
@@ -17,13 +18,15 @@ module.exports = function(gulp) {
     gulp.task('ts-plus-test', function () {
         console.log('compiling project source files for test...');
 
-        return  gulp.src([cfg.fileset.ts, cfg.fileset.tsTest])
+        // return  gulp.src([cfg.fileset.ts, cfg.fileset.tsTest])
+		return  gulp.src([cfg.fileset.ts])
             .pipe(sourcemaps.init())
             .pipe(ts(cfg.tsConfig))
             .pipe(sourcemaps.write())
-            .pipe(gulp.dest(function(file) {
-                return file.base;
-            }));
+			.pipe(gulp.dest(path.join(cfg.dir.dist)))
+			//.pipe(gulp.dest(function(file) {
+             //   return file.base;
+			//}));
     });
 
 	gulp.task('run-tests', ['ts-plus-test'], function() {

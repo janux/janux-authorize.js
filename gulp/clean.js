@@ -14,9 +14,9 @@ module.exports = function(gulp) {
 	// Remove all generated JavaScript files from TypeScript compilation process.
 	//
 	gulp.task('clean:build', function (cb) {
-		console.log('cleaning build directory...');
+		console.log('cleaning '+cfg.dir.dist+' directory...');
 		// delete the files
-		del([path.join(cfg.dir.src,'**','*.js')], cb);
+		del([path.join(cfg.dir.dist,'**','*')], cb);
 	});
 	
 	//
