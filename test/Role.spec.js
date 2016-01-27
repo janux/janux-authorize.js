@@ -56,9 +56,9 @@ describe('', function () {
         it('should instantiate with basic fields', function () {
             log.debug('role after creation: %j', role);
             expect(role.typeName).to.equal(TYPE_NAME);
-            expect(role.getName()).to.equal(ROLE_NAME);
-            expect(role.getDescription()).to.equal(ROLE_DESCR);
-            expect(role.getSortOrder()).to.equal(0);
+            expect(role.name).to.equal(ROLE_NAME);
+            expect(role.description).to.equal(ROLE_DESCR);
+            expect(role.sortOrder).to.equal(0);
         });
 
 		it('typeName should be immutable', function () {
@@ -111,8 +111,8 @@ describe('', function () {
             role.grant(['READ', 'UPDATE', 'TRASH'], personAuthContext)
                 .grant(['READ', 'UPDATE'], accountAuthContext);
             var role2 = Role.fromJSON(role.toJSON());
-            expect(role2.getName()).to.equal(role.getName());
-            expect(role2.getDescription()).to.equal(role.getDescription());
+            expect(role2.name).to.equal(role.name);
+            expect(role2.description).to.equal(role.description);
             assertPermissions(role2);
         });
     });

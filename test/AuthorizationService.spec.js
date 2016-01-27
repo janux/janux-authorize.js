@@ -20,32 +20,32 @@ describe('AuthService', function () {
         it('should have proper values', function () {
             log.info('authContext: %j', authContext);
 
-            expect(authContext.getName()).to.equal('WIDGET');
-            expect(authContext.getDescription()).to.equal('Defines permissions available on a Widget managed by the system');
+            expect(authContext.name).to.equal('WIDGET');
+            expect(authContext.description).to.equal('Defines permissions available on a Widget managed by the system');
 
             var perms = authContext.getPermissionBitsAsList();
 
             expect(perms).to.have.length(5);
-            expect(perms[0].getName()).to.equal('READ');
-            expect(perms[0].getDescription()).to.equal('Grants permission to READ a Widget managed by the system');
-            expect(perms[0].getPosition()).to.equal(0);
-            expect(perms[0].getSortOrder()).to.equal(0);
+            expect(perms[0].name).to.equal('READ');
+            expect(perms[0].description).to.equal('Grants permission to READ a Widget managed by the system');
+            expect(perms[0].position).to.equal(0);
+            expect(perms[0].sortOrder).to.equal(0);
 
-			expect(perms[1].getName()).to.equal('UPDATE');
-            expect(perms[1].getPosition()).to.equal(1);
-            expect(perms[1].getSortOrder()).to.equal(1);
+			expect(perms[1].name).to.equal('UPDATE');
+            expect(perms[1].position).to.equal(1);
+            expect(perms[1].sortOrder).to.equal(1);
 
-			expect(perms[2].getName()).to.equal('CREATE');
-            expect(perms[2].getPosition()).to.equal(2);
-            expect(perms[2].getSortOrder()).to.equal(2);
+			expect(perms[2].name).to.equal('CREATE');
+            expect(perms[2].position).to.equal(2);
+            expect(perms[2].sortOrder).to.equal(2);
 
-			expect(perms[3].getName()).to.equal('DELETE');
-            expect(perms[3].getPosition()).to.equal(3);
-            expect(perms[3].getSortOrder()).to.equal(3);
+			expect(perms[3].name).to.equal('DELETE');
+            expect(perms[3].position).to.equal(3);
+            expect(perms[3].sortOrder).to.equal(3);
 
-			expect(perms[4].getName()).to.equal('PURGE');
-            expect(perms[4].getPosition()).to.equal(4);
-            expect(perms[4].getSortOrder()).to.equal(4);
+			expect(perms[4].name).to.equal('PURGE');
+            expect(perms[4].position).to.equal(4);
+            expect(perms[4].sortOrder).to.equal(4);
         });
     });
 
@@ -54,32 +54,32 @@ describe('AuthService', function () {
         it('should have proper values', function () {
             log.debug('authContext: %j', authContext);
 
-            expect(authContext.getName()).to.equal('EQUIPMENT');
-            expect(authContext.getDescription()).to.equal('Defines permissions available on a Equipment used to produce a Widget');
+            expect(authContext.name).to.equal('EQUIPMENT');
+            expect(authContext.description).to.equal('Defines permissions available on a Equipment used to produce a Widget');
 
             var perms = authContext.getPermissionBitsAsList();
 
             expect(perms).to.have.length(5);
-            expect(perms[0].getName()).to.equal('READ');
-            expect(perms[0].getDescription()).to.equal('Grants permission to READ a Equipment used to produce a Widget');
-            expect(perms[0].getPosition()).to.equal(0);
-            expect(perms[0].getSortOrder()).to.equal(0);
+            expect(perms[0].name).to.equal('READ');
+            expect(perms[0].description).to.equal('Grants permission to READ a Equipment used to produce a Widget');
+            expect(perms[0].position).to.equal(0);
+            expect(perms[0].sortOrder).to.equal(0);
 
-            expect(perms[1].getName()).to.equal('UPDATE');
-            expect(perms[1].getPosition()).to.equal(1);
-            expect(perms[1].getSortOrder()).to.equal(1);
+            expect(perms[1].name).to.equal('UPDATE');
+            expect(perms[1].position).to.equal(1);
+            expect(perms[1].sortOrder).to.equal(1);
 
-			expect(perms[2].getName()).to.equal('CREATE');
-            expect(perms[2].getPosition()).to.equal(2);
-            expect(perms[2].getSortOrder()).to.equal(2);
+			expect(perms[2].name).to.equal('CREATE');
+            expect(perms[2].position).to.equal(2);
+            expect(perms[2].sortOrder).to.equal(2);
 
-			expect(perms[3].getName()).to.equal('DELETE');
-            expect(perms[3].getPosition()).to.equal(3);
-            expect(perms[3].getSortOrder()).to.equal(3);
+			expect(perms[3].name).to.equal('DELETE');
+            expect(perms[3].position).to.equal(3);
+            expect(perms[3].sortOrder).to.equal(3);
 
-			expect(perms[4].getName()).to.equal('PURGE');
-            expect(perms[4].getPosition()).to.equal(4);
-            expect(perms[4].getSortOrder()).to.equal(4);
+			expect(perms[4].name).to.equal('PURGE');
+            expect(perms[4].position).to.equal(4);
+            expect(perms[4].sortOrder).to.equal(4);
         });
     });
     // assertions

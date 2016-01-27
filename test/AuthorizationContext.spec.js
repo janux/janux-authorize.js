@@ -51,28 +51,28 @@ describe('AuthorizationContext', function () {
 		var bit = authContext.getPermissionBit('READ');
 
 		// expect(bit).to.be.instanceof(PermissionBit);
-        expect(bit.getName()).to.equal('READ');
+        expect(bit.name).to.equal('READ');
         expect(bit.label).to.equal('READ');
-        expect(bit.getPosition()).to.equal(0);
-        expect(bit.getSortOrder()).to.equal(0);
+        expect(bit.position).to.equal(0);
+        expect(bit.sortOrder).to.equal(0);
 
 		// label, description and sortOrder are mutable
         var LABEL = 'View', DESCR = 'View a Person record', SORT = 999;
 
 		bit.label = LABEL;
-        bit.setDescription(DESCR);
-        bit.setSortOrder(SORT);
+        bit.description = DESCR;
+        bit.sortOrder = SORT;
         expect(bit.label).to.equal(LABEL);
-        expect(bit.getDescription()).to.equal(DESCR);
-        expect(bit.getSortOrder()).to.equal(SORT);
+        expect(bit.description).to.equal(DESCR);
+        expect(bit.sortOrder).to.equal(SORT);
 
 		// second bit has custom sortOrder
         bit = authContext.getPermissionBit('UPDATE');
 
 		// expect(bit).to.be.instanceof(PermissionBit);
-        expect(bit.getName()).to.equal('UPDATE');
-        expect(bit.getPosition()).to.equal(1);
-        expect(bit.getSortOrder()).to.equal(99);
+        expect(bit.name).to.equal('UPDATE');
+        expect(bit.position).to.equal(1);
+        expect(bit.sortOrder).to.equal(99);
         var bits = authContext.getPermissionBitsAsList();
         expect(bits).to.be.instanceof(Array);
     });
@@ -82,7 +82,7 @@ describe('AuthorizationContext', function () {
 
 		// null name should fail
         try {
-            authContext.addPermissionBit(new PermissionBit.default());
+            authContext.addPermissionBit();
             err = false;
             log.error('Should not be able to add permBit with a null name');
         }
@@ -178,23 +178,23 @@ describe('AuthorizationContext', function () {
         var authContext2 = AuthorizationContext.fromJSON(authContext.toJSON());
         var bit, bit2;
 
-		expect(authContext2.getName()).to.equal(authContext.getName());
-        expect(authContext2.getDescription()).to.equal(authContext.getDescription());
+		expect(authContext2.name).to.equal(authContext.name);
+        expect(authContext2.description).to.equal(authContext.description);
         authContext.getPermissionBits().forEach(function (bitName, cBit) {
             bit = authContext.getPermissionBit(bitName);
             bit2 = authContext2.getPermissionBit(bitName);
-            expect(bit.getPosition()).to.equal(bit2.getPosition());
-            expect(bit.getDescription()).to.equal(bit2.getDescription());
-            expect(bit.getSortOrder()).to.equal(bit2.getSortOrder());
+            expect(bit.position).to.equal(bit2.position);
+            expect(bit.description).to.equal(bit2.description);
+            expect(bit.sortOrder).to.equal(bit2.sortOrder);
         });
 
 		// short version
         authContext2 = AuthorizationContext.fromJSON(authContext.toJSON(true));
-        expect(authContext2.getName()).to.equal(authContext.getName());
+        expect(authContext2.name).to.equal(authContext.name);
         authContext.getPermissionBits().forEach(function (bitName, cBit) {
             bit = authContext.getPermissionBit(bitName);
             bit2 = authContext2.getPermissionBit(bitName);
-            expect(bit.getPosition()).to.equal(bit2.getPosition());
+            expect(bit.position).to.equal(bit2.position);
         });
     });
     // assertions
