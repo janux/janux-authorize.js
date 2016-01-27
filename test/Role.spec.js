@@ -93,7 +93,7 @@ describe('', function () {
         });
 
 		it('that is almighty should be able to have all permissions', function () {
-            role.setAlmighty(true);
+            role.isAlmighty = true;
             log.info('role after granting almightiness: %j', role);
             expect(role.hasPermission('READ', 'PERSON')).to.equal(true);
             expect(role.hasPermissions(['READ', 'UPDATE'], 'PERSON')).to.equal(true);

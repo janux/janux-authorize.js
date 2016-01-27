@@ -134,10 +134,7 @@ export interface iAuthorizationHolder{
 	// deny(permissionsDenied: number, authorizationContext: AuthorizationContext): void
 
 	/** If true, this Role is a super user with all Permissions */
-	isAlmighty(): boolean
-
-	/** set/unset whether this AuthorizationHolder is a super user with all Permissions */
-	setAlmighty(isAlmighty: boolean): void
+	isAlmighty: boolean
 
 	/** the sub-roles that this Role aggregates */
 	getRoles(): List<Role>

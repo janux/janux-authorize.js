@@ -27,7 +27,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
     }
 
     protected name:string;
-    protected _isAlmighty:boolean;
+    public isAlmighty:boolean;
     protected roles: List<Role>;
 
     // protected  authContexts: Dictionary<string, AuthorizationContext>;
@@ -86,7 +86,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
     hasPermissions(permNames: string[], authContextName: string): boolean {
 
         // almighty users have all permissions for now (TODO: add 'deny' mechanism)
-        if (this.isAlmighty()) { return true; }
+        if (this.isAlmighty) { return true; }
 
         var permsGranted = this.permissionsGranted.getValue(authContextName);
         if (!_.isObject(permsGranted)) { return false; }
@@ -126,18 +126,10 @@ export class AuthorizationHolder implements iAuthorizationHolder
         }
     }
 
-    isAlmighty(): boolean {
-        return this._isAlmighty;
-    }
-
-    setAlmighty(isAlmighty: boolean): void {
-        this._isAlmighty = isAlmighty;
-    }
-
     toJSON(): any {
         var out = _.clone(this);
         delete out.permissionsGranted;
-        delete out._isAlmighty;
+        delete out.isAlmighty;
 
         var perm;
         // outputs permissionsGranted separately from permissionsContexts to make json msg more readable

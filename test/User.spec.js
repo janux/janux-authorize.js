@@ -91,7 +91,7 @@ describe ('', function() {
         });
 
         it('that is almighty should be able to have all permissions', function() {
-            user.setAlmighty(true);
+            user.isAlmighty = true;
             log.info('user after granting almightiness: %j', user);
 
             expect(user.hasPermission('READ', 'PERSON')).to.equal(true);

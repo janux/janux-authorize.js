@@ -82,6 +82,6 @@ role['EQUIPMENT_MANAGER'] = new Role('EQUIPMENT_MANAGER', 'A facilities manager 
 ;
 
 role['SYS_ADMIN'] = new Role('SYS_ADMIN', 'System Administrator with all privileges');
-role['SYS_ADMIN'].setAlmighty(true);
+role['SYS_ADMIN'].isAlmighty = true;
 
 // console.log('role.SYS_ADMIN:', JSON.stringify(role.SYS_ADMIN));

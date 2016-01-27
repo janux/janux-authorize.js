@@ -54,7 +54,7 @@ export class Role extends AuthorizationHolder implements iRole
         _.each(obj.authContexts, (authContext:any) => {
             out.grant(obj.permissions[authContext.name].grant, AuthorizationContext.fromJSON(authContext));
         });
-        if (obj.isAlmighty) out.setAlmighty(true);
+        if (obj.isAlmighty) out.isAlmighty = true;
 
         return out;
     }
