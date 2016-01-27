@@ -64,7 +64,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
         if ( permsValue > authContext.getMaxValue() ) {
             throw new Error( 'The permission bitmask that you are trying to assign: ' + permsValue
                 + ' has a value greater than the maximum ' + authContext.getMaxValue()
-                + ' that can be assigned in the context of AuthorizationContext ' + authContext.getName()
+                + ' that can be assigned in the context of AuthorizationContext ' + authContext.name
                 + ' to entity ' + this.name);
         }
 
@@ -74,11 +74,11 @@ export class AuthorizationHolder implements iAuthorizationHolder
 
         if (permsValue > 0) {
             this.permissionsGranted.setValue(
-                authContext.getName(),
+                authContext.name,
                 { context: <AuthorizationContext> authContext, grant: <number> permsValue }
             );
         } else {
-            this.permissionsGranted.remove(authContext.getName());
+            this.permissionsGranted.remove(authContext.name);
         }
         return this;
     }

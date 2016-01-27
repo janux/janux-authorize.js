@@ -22,8 +22,10 @@ export interface iPermissionBit {
 	 * Short-hand name for this iPermissionBit (e.g.: READ),
 	 * unique in the context of the containing iAuthorizationContext
 	 */
-	getName(): string
-	setName(name:string): void
+	name: string;
+
+	/** Human readable description of this iPermissionBit */
+	description: string;
 
 	/**
 	 * The position of the iPermissionBit within the bit mask defined by the iAuthorizationContext, should be a
@@ -31,8 +33,13 @@ export interface iPermissionBit {
 	 * defines 5 permissions, this should be a number between 0 and 4 that is not used by any of the
 	 * other Permissions in the iAuthorizationContext
 	 */
-	getPosition(): number
-	setPosition(pos:number): void
+	position: number;
+
+	/**
+	 * used to display the sort order independently from the Bit's Position, defaults to the
+	 * getPosition if not set explicitly
+	 */
+	sortOrder: number;
 
 	/** A convenience method that returns 2 to the power of the bitPosition */
 	getValue(): number
@@ -41,16 +48,6 @@ export interface iPermissionBit {
 	getAuthorizationContext(): iAuthorizationContext
 	setAuthorizationContext(authContext:iAuthorizationContext): void
 
-	/**     Human readable description of this iPermissionBit */
-	getDescription(): string
-	setDescription(description:string): void
-
-	/**
-	 * used to display the sort order independently from the Bit's Position, defaults to the
-	 * getPosition if not set explicitly
-	 */
-	getSortOrder(): number
-	setSortOrder(i:number): void
 }
 
 

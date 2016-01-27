@@ -29,8 +29,13 @@ import {PermissionBit} from "../impl/PermissionBit";
 
 export interface iAuthorizationContext {
 	/** A unique name for this AuthorizationContext, in the context of the Application */
-	getName(): string
-	setName(name:string): void
+	name: string;
+
+	/** Human readable description of this iPermissionBit Set */
+	description: string;
+
+	/** The order in which this AuthorizationContext should be displayed */
+	sortOrder: number;
 
 	/**
 	 * The set of permissions that this iPermissionBit Set defines; note that this represents meta
@@ -62,14 +67,6 @@ export interface iAuthorizationContext {
 	 * (2 to the power of getiPermissionBits().size()) - 1
 	 */
 	getMaxValue(): number
-
-	/** Human readable description of this iPermissionBit Set */
-	getDescription(): string
-	setDescription(description:string): void
-
-	/** The order in which this AuthorizationContext should be displayed */
-	getSortOrder(): number
-	setSortOrder(sortOrder:number): void
 
 	/** Determines whether or not this AuthorizationContext is being used */
 	isEnabled(): boolean

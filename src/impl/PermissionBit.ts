@@ -12,13 +12,13 @@ import {iAuthorizationContext} from "../api/AuthorizationContext";
 import _ = require('lodash');
 
 export class PermissionBit implements iPermissionBit {
-    private name:string;
-    private _label:string;
-    private position:number = -1;
+    public name:string;
+    public description:string;
+    public label:string;
+    public position:number = -1;
 
-    private description:string;
     private authContext:iAuthorizationContext;
-    private sortOrder:number;
+    private  _sortOrder:number;
 
     constructor(name?:string, description?:string, sortOrder?:number) {
 
@@ -30,37 +30,13 @@ export class PermissionBit implements iPermissionBit {
             }
         }
 
-        this.setName(name);
-        this.setDescription(description);
+        this.name =name;
+        this.description = description;
         this.sortOrder = _.isNumber(sortOrder) ? sortOrder : -1;
     }
 
-    get label():string {
-        return this._label;
-    }
-
-    set label(value:string) {
-        this._label = value;
-    }
-
-    getName():string {
-        return this.name;
-    }
-
-    setName(name:string):void {
-        this.name = name;
-    }
-
-    getPosition():number {
-        return this.position;
-    }
-
-    setPosition(position:number):void {
-        this.position = position;
-    }
-
     getValue():number {
-        return Math.pow(2.0, this.getPosition());
+        return Math.pow(2.0, this.position);
     }
 
     getAuthorizationContext():iAuthorizationContext {
@@ -71,23 +47,15 @@ export class PermissionBit implements iPermissionBit {
         this.authContext = bitmask;
     }
 
-    getDescription():string {
-        return this.description;
+    get sortOrder():number {
+        if (this._sortOrder == null)
+            this._sortOrder = this.position;
+
+        return this._sortOrder;
     }
 
-    setDescription(description:string):void {
-        this.description = description;
-    }
-
-    getSortOrder():number {
-        if (this.sortOrder == null)
-            this.sortOrder = this.getPosition();
-
-        return this.sortOrder;
-    }
-
-    setSortOrder(i:number):void {
-        this.sortOrder = i;
+    set sortOrder(value:number) {
+        this._sortOrder = value;
     }
 
     toString() {

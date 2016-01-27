@@ -23,44 +23,20 @@ export class Role extends AuthorizationHolder implements iRole
         return 'janux.security.Role';
     }
 
-    protected name: string;
-    private description: string;
-    private sortOrder: number = 0;
+    public name: string;
+    public description: string;
+    public sortOrder: number = 0;
     private enabled: boolean = true;
 
     constructor(aName: string, aDescription?: string)
     {
         super();
-        this.setName(aName);
-        this.setDescription(aDescription);
-    }
-
-    getName(): string {
-        return this.name;
-    }
-
-    setName(name: string): void {
-        this.name = name;
-    }
-
-    getDescription(): string {
-        return this.description;
-    }
-
-    setDescription(description: string): void {
-        this.description = description;
+        this.name = aName;
+        this.description = aDescription;
     }
 
     protected setPermissionsGranted(permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>): void {
         this.permissionsGranted = permissionsGranted;
-    }
-
-    getSortOrder(): number {
-        return this.sortOrder;
-    }
-
-    setSortOrder(sortOrder: number): void {
-        this.sortOrder = sortOrder;
     }
 
     isEnabled(): boolean {

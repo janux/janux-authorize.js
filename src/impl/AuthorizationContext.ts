@@ -18,9 +18,9 @@ export class AuthorizationContext implements iAuthorizationContext {
         return 'janux.security.AuthorizationContext';
     }
 
-    private name:string;
-    private description:string;
-    private sortOrder:number;
+    public name:string;
+    public description:string;
+    public sortOrder:number;
     private enabled:boolean;
 
     // stores permission bits indexed by name
@@ -39,14 +39,6 @@ export class AuthorizationContext implements iAuthorizationContext {
         if(typeof this.authBitList === 'undefined'){
             this.authBitList = new Dictionary<number, PermissionBit>();
         }
-    }
-
-    getName():string {
-        return this.name;
-    }
-
-    setName(name:string):void {
-        this.name = name;
     }
 
     getPermissionBits(): Dictionary<string, PermissionBit> {
@@ -93,21 +85,21 @@ export class AuthorizationContext implements iAuthorizationContext {
             throw new Error('Unable to add permissionBit, wrong parameters. The first parameter can only be string or PermissionBit');
         }
 
-        if (this.getPermissionBit(permBit.getName()) != null) {
+        if (this.getPermissionBit(permBit.name) != null) {
             throw new Error('A permission bit with name: ' + name + ' already exists in PermissionContext ' + this.name);
         }
 
-        permBit.label = permBit.getName();
-        permBit.setPosition(this.getMaxBitPosition() + 1);
+        permBit.label = permBit.name;
+        permBit.position = this.getMaxBitPosition() + 1;
         permBit.setAuthorizationContext(this);
 
-        if(permBit.getSortOrder() === -1){
-            permBit.setSortOrder(permBit.getPosition());
+        if(permBit.sortOrder === -1){
+            permBit.sortOrder = permBit.position;
         }
         // store bit by position
-        this.authBitList.setValue(permBit.getPosition(), permBit);
+        this.authBitList.setValue(permBit.position, permBit);
         // store bit by name
-        this._bit.setValue(permBit.getName(), permBit);
+        this._bit.setValue(permBit.name, permBit);
     }
 
     getPermissionAsNumber(permBitName: string): number {
@@ -122,7 +114,7 @@ export class AuthorizationContext implements iAuthorizationContext {
         if (!_.isObject(bit)) {
             throw new Error ('Cannot convert permission '+permBitName+' to number: it does not exist in PermissionContext '+ this.name);
         }
-        permValue = Math.pow(2, bit.getPosition());
+        permValue = Math.pow(2, bit.position);
 
         return permValue;
     }
@@ -145,23 +137,6 @@ export class AuthorizationContext implements iAuthorizationContext {
 
     getMaxValue():number {
         return Math.pow(2.0, this.getPermissionBits().size()) - 1;
-    }
-
-    /* Human readable description of this PermissionBit Set */
-    getDescription():string {
-        return this.description;
-    }
-
-    setDescription(description:string):void {
-        this.description = description;
-    }
-
-    getSortOrder():number {
-        return this.sortOrder;
-    }
-
-    setSortOrder(sortOrder:number):void {
-        this.sortOrder = sortOrder;
     }
 
     isEnabled():boolean {
@@ -193,7 +168,7 @@ export class AuthorizationContext implements iAuthorizationContext {
 
         // _.forEach(this._bit, function (bit: PermissionBit, bName: string) {
         this._bit.forEach((bName:string, bit:PermissionBit)=>{
-                maxBitPos = Math.max(bit.getPosition(), maxBitPos);
+                maxBitPos = Math.max(bit.position, maxBitPos);
         });
 
         return maxBitPos;
@@ -237,14 +212,14 @@ export class AuthorizationContext implements iAuthorizationContext {
         this._bit.forEach((bName:string, bit: PermissionBit)=>{
             out.bit = out.bit || {};
             var aBit:any = {};
-            aBit.position = bit.getPosition();
+            aBit.position = bit.position;
 
             if (!doShortVersion) {
-                aBit.label = bit.getName();
-                aBit.description = bit.getDescription();
-                aBit.sortOrder = bit.getSortOrder();
+                aBit.label = bit.name;
+                aBit.description = bit.description;
+                aBit.sortOrder = bit.sortOrder;
             }
-            out.bit[bit.getName()] = aBit;
+            out.bit[bit.name] = aBit;
         });
         return out;
     }
