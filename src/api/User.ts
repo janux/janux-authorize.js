@@ -4,12 +4,10 @@ import basarat = require('../collections');
 import collections = basarat.collections;
 import Set = collections.Set;
 import List = collections.LinkedList;
-import {Role} from '../impl/Role';
-import {iAuthorizationHolder} from '../api/AuthorizationHolder';
 
 /**
  ***************************************************************************************************
- * Represents a login account in the application, could also have been called a User or a Principal,
+ * Represents a login user in the application, could also have been called a User or a Principal,
  * see more below.
  * <p>
  * Note that what we call an Account here is what many applications call a 'User'.  We chose to use
@@ -31,7 +29,7 @@ import {iAuthorizationHolder} from '../api/AuthorizationHolder';
  ***************************************************************************************************
  */
 
-export interface iAccount {
+export interface iUser{
 	/** A unique name that identifies this Account - returns the same value as the getUsername inherited frmo the UserDetails interface */
 	getName(): string
 	setName(name: string ): void
@@ -40,10 +38,11 @@ export interface iAccount {
 	setPassword(password: string): void
 
 	/** indicates whether the account is valid and can be used */
-	setEnabled(enabled: boolean): void
+	setActive(enabled: boolean): void
+	getActive(): void
 
 	/** unlocks account */
-	setAccountNonLocked(b: boolean): void
+	setAccountLocked(b: boolean): void
 
 	/** if not null, the date of expiration of the account */
 	getExpiration(): Date
@@ -53,5 +52,8 @@ export interface iAccount {
 	getPasswordExpiration(): Date
 	setPasswordExpiration(date: Date): void
 
+	/** Establish contact object (person or organization) of the user's account **/
+	setContact(contact: any): void
+	getContact(): void
 }
 

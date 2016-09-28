@@ -7,17 +7,17 @@ import _ = require('lodash');
 import basarat = require('../collections');
 import collections = basarat.collections;
 import List = collections.LinkedList;
-import {AuthorizationHolder} from './AuthorizationHolder';
-import {iAccount} from '../api/Account';
+import {iUser} from '../api/User';
 
-export class Account implements iAccount {
+export class Account implements iUser {
 
     protected name: string;
     private password: string;
     private expire: Date;
     private expirePassword: Date;
-    private nonLocked: boolean;
+    private locked: boolean;
     private enabled: boolean = true;
+    private contact: any;
 
     constructor(){ }
 
@@ -65,20 +65,32 @@ export class Account implements iAccount {
         return this.enabled;
     }
 
-    setEnabled(enabled: boolean): void {
+    setActive(enabled: boolean): void {
         this.enabled = enabled;
     }
 
-    isAccountNonLocked(): boolean {
-        return this.nonLocked;
+    getActive(): boolean {
+        return this.enabled;
     }
 
-    setAccountNonLocked(b: boolean): void {
-        this.nonLocked = b;
+    isAccountLocked(): boolean {
+        return this.locked;
+    }
+
+    setAccountLocked(b: boolean): void {
+        this.locked = b;
+    }
+
+    setContact(contact: any): void {
+        this.contact = contact;
+    }
+
+    getContact(): any{
+        return this.contact;
     }
 
     static createInstance(): Account {
         return new this;
     }
 
-} // end class AccountImpl
+}
