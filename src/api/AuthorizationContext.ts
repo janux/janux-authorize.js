@@ -29,13 +29,16 @@ import {PermissionBit} from "../impl/PermissionBit";
 
 export interface iAuthorizationContext {
 	/** A unique name for this AuthorizationContext, in the context of the Application */
-	name: string;
+	name: string
 
 	/** Human readable description of this iPermissionBit Set */
-	description: string;
+	description: string
 
 	/** The order in which this AuthorizationContext should be displayed */
-	sortOrder: number;
+	sortOrder: number
+
+	/** Determines whether or not this AuthorizationContext is being used */
+	enabled: boolean
 
 	/**
 	 * The set of permissions that this iPermissionBit Set defines; note that this represents meta
@@ -43,10 +46,10 @@ export interface iAuthorizationContext {
 	 * Busines Context and a Role, but that a iPermissionBit Set does not confer any of these Permissions
 	 * per-se to any entity.
 	 */
-	getPermissionBits(): Dictionary<string, PermissionBit>
+	permissionBits(): Dictionary<string, PermissionBit>
 
 	/** Returns a iPermissionBit by its unique name within the AuthorizationContext */
-	getPermissionBit(name:string): iPermissionBit
+	permissionBit(name:string): iPermissionBit
 
 	/**
 	 * Adds a iPermissionBit to this AuthorizationContext - the implementation
@@ -60,16 +63,12 @@ export interface iAuthorizationContext {
 	 * Convenience method that returns the sum of values of a set of iPermissionBits specified by name;
 	 * for example, in the example above getPermissionsAsNumber({READ, UPDATE}) would return 3
 	 */
-	getPermissionsAsNumber(permNames:string[]): number
+	permissionsAsNumber(permNames:string[]): number
 
 	/**
 	 * returns the maximum value that the permission bitmask can take, should be equal to
 	 * (2 to the power of getiPermissionBits().size()) - 1
 	 */
 	getMaxValue(): number
-
-	/** Determines whether or not this AuthorizationContext is being used */
-	isEnabled(): boolean
-	setEnabled(visible:boolean): void
 }
 

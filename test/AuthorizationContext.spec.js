@@ -48,7 +48,7 @@ describe('AuthorizationContext', function () {
         log.info('short version of authContext: %j', authContext.toJSON(true));
         log.info('short version of authContext: %s', util.inspect(authContext.toJSON(true)));
 
-		var bit = authContext.getPermissionBit('READ');
+		var bit = authContext.permissionBit('READ');
 
 		// expect(bit).to.be.instanceof(PermissionBit);
         expect(bit.name).to.equal('READ');
@@ -67,13 +67,13 @@ describe('AuthorizationContext', function () {
         expect(bit.sortOrder).to.equal(SORT);
 
 		// second bit has custom sortOrder
-        bit = authContext.getPermissionBit('UPDATE');
+        bit = authContext.permissionBit('UPDATE');
 
 		// expect(bit).to.be.instanceof(PermissionBit);
         expect(bit.name).to.equal('UPDATE');
         expect(bit.position).to.equal(1);
         expect(bit.sortOrder).to.equal(99);
-        var bits = authContext.getPermissionBitsAsList();
+        var bits = authContext.permissionBitsAsList();
         expect(bits).to.be.instanceof(Array);
     });
 
@@ -136,18 +136,18 @@ describe('AuthorizationContext', function () {
         authContext.addPermissionBit('CREATE', 'Grants permission to CREATE a PERSON');
         authContext.addPermissionBit('DELETE', 'Grants permission to DELETE a PERSON', 99);
 
-		expect(authContext.getPermissionAsNumber('READ')).to.equal(1);
-        expect(authContext.getPermissionAsNumber('UPDATE')).to.equal(2);
-        expect(authContext.getPermissionAsNumber('CREATE')).to.equal(4);
-        expect(authContext.getPermissionAsNumber('DELETE')).to.equal(8);
-        expect(authContext.getPermissionsAsNumber([])).to.equal(0);
-        expect(authContext.getPermissionsAsNumber(['READ', 'UPDATE', 'DELETE'])).to.equal(1 + 2 + 8);
-        expect(authContext.getPermissionsAsNumber(['READ', 'CREATE', 'DELETE'])).to.equal(1 + 4 + 8);
+		expect(authContext.permissionAsNumber('READ')).to.equal(1);
+        expect(authContext.permissionAsNumber('UPDATE')).to.equal(2);
+        expect(authContext.permissionAsNumber('CREATE')).to.equal(4);
+        expect(authContext.permissionAsNumber('DELETE')).to.equal(8);
+        expect(authContext.permissionsAsNumber([])).to.equal(0);
+        expect(authContext.permissionsAsNumber(['READ', 'UPDATE', 'DELETE'])).to.equal(1 + 2 + 8);
+        expect(authContext.permissionsAsNumber(['READ', 'CREATE', 'DELETE'])).to.equal(1 + 4 + 8);
 
 		var err = true;
 
 		try {
-            authContext.getPermissionAsNumber('REDA');
+            authContext.permissionAsNumber('REDA');
             err = false;
             log.error('Should fail to convert non-existent permission to number');
         }
@@ -156,7 +156,7 @@ describe('AuthorizationContext', function () {
         }
 
 		try {
-            authContext.getPermissionsAsNumber(['REDA', 'UPDATE']);
+            authContext.permissionsAsNumber(['REDA', 'UPDATE']);
             err = false;
             log.error('Should fail to convert non-existent permission to number');
         }
@@ -180,9 +180,9 @@ describe('AuthorizationContext', function () {
 
 		expect(authContext2.name).to.equal(authContext.name);
         expect(authContext2.description).to.equal(authContext.description);
-        authContext.getPermissionBits().forEach(function (bitName, cBit) {
-            bit = authContext.getPermissionBit(bitName);
-            bit2 = authContext2.getPermissionBit(bitName);
+        authContext.permissionBits().forEach(function (bitName, cBit) {
+            bit = authContext.permissionBit(bitName);
+            bit2 = authContext2.permissionBit(bitName);
             expect(bit.position).to.equal(bit2.position);
             expect(bit.description).to.equal(bit2.description);
             expect(bit.sortOrder).to.equal(bit2.sortOrder);
@@ -191,9 +191,9 @@ describe('AuthorizationContext', function () {
 		// short version
         authContext2 = AuthorizationContext.fromJSON(authContext.toJSON(true));
         expect(authContext2.name).to.equal(authContext.name);
-        authContext.getPermissionBits().forEach(function (bitName, cBit) {
-            bit = authContext.getPermissionBit(bitName);
-            bit2 = authContext2.getPermissionBit(bitName);
+        authContext.permissionBits().forEach(function (bitName, cBit) {
+            bit = authContext.permissionBit(bitName);
+            bit2 = authContext2.permissionBit(bitName);
             expect(bit.position).to.equal(bit2.position);
         });
     });

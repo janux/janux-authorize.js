@@ -23,7 +23,7 @@ describe('AuthService', function () {
             expect(authContext.name).to.equal('WIDGET');
             expect(authContext.description).to.equal('Defines permissions available on a Widget managed by the system');
 
-            var perms = authContext.getPermissionBitsAsList();
+            var perms = authContext.permissionBitsAsList();
 
             expect(perms).to.have.length(5);
             expect(perms[0].name).to.equal('READ');
@@ -57,7 +57,7 @@ describe('AuthService', function () {
             expect(authContext.name).to.equal('EQUIPMENT');
             expect(authContext.description).to.equal('Defines permissions available on a Equipment used to produce a Widget');
 
-            var perms = authContext.getPermissionBitsAsList();
+            var perms = authContext.permissionBitsAsList();
 
             expect(perms).to.have.length(5);
             expect(perms[0].name).to.equal('READ');

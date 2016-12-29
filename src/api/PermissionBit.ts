@@ -45,9 +45,7 @@ export interface iPermissionBit {
 	getValue(): number
 
 	/** The iAuthorizationContext that contains/uses this iPermissionBit */
-	getAuthorizationContext(): iAuthorizationContext
-	setAuthorizationContext(authContext:iAuthorizationContext): void
-
+	authorizationContext: iAuthorizationContext
 }
 
 

@@ -21,7 +21,7 @@ export class AuthorizationContext implements iAuthorizationContext {
     public name:string;
     public description:string;
     public sortOrder:number;
-    private enabled:boolean;
+    public enabled:boolean;
 
     // stores permission bits indexed by name
     private _bit: Dictionary<string, PermissionBit> = new Dictionary<string, PermissionBit>();
@@ -41,11 +41,11 @@ export class AuthorizationContext implements iAuthorizationContext {
         }
     }
 
-    getPermissionBits(): Dictionary<string, PermissionBit> {
+    permissionBits(): Dictionary<string, PermissionBit> {
         return this._bit;
     }
 
-    getPermissionBitsAsList(): Array<PermissionBit> {
+    permissionBitsAsList(): Array<PermissionBit> {
         var out: Array<PermissionBit> = new Array<PermissionBit>();
 
         this.authBitList.forEach((kBit: number, bit:PermissionBit)=>{
@@ -55,7 +55,7 @@ export class AuthorizationContext implements iAuthorizationContext {
         return out;
     }
 
-    getPermissionBit(name:string): PermissionBit {
+    permissionBit(name:string): PermissionBit {
         var pB = this.getBitMap().getValue(name); // this.getBitMap().getValue(name);
         if(typeof pB === 'undefined'){
             return null;
@@ -85,13 +85,13 @@ export class AuthorizationContext implements iAuthorizationContext {
             throw new Error('Unable to add permissionBit, wrong parameters. The first parameter can only be string or PermissionBit');
         }
 
-        if (this.getPermissionBit(permBit.name) != null) {
+        if (this.permissionBit(permBit.name) != null) {
             throw new Error('A permission bit with name: ' + name + ' already exists in PermissionContext ' + this.name);
         }
 
         permBit.label = permBit.name;
         permBit.position = this.getMaxBitPosition() + 1;
-        permBit.setAuthorizationContext(this);
+        permBit.authorizationContext = this;
 
         if(permBit.sortOrder === -1){
             permBit.sortOrder = permBit.position;
@@ -102,7 +102,7 @@ export class AuthorizationContext implements iAuthorizationContext {
         this._bit.setValue(permBit.name, permBit);
     }
 
-    getPermissionAsNumber(permBitName: string): number {
+    permissionAsNumber(permBitName: string): number {
         var permValue: number;
 
         if (!_.isString(permBitName)) {
@@ -119,32 +119,24 @@ export class AuthorizationContext implements iAuthorizationContext {
         return permValue;
     }
 
-    getPermissionsAsNumber(permBitNames: string[]): number {
+    permissionsAsNumber(permBitNames: string[]): number {
         if (!_.isArray(permBitNames)) {
             throw new Error ('Argument to getPermissionsAsNumber must be an array of strings');
         }
 
         var sumPerms = (out, perm) => {
-            return out + this.getPermissionAsNumber(perm);
-        }
+            return out + this.permissionAsNumber(perm);
+        };
 
         return  _.reduce(permBitNames, sumPerms, 0);
     }
 
     getValue(permBitNames:string[]):number {
-        return this.getPermissionsAsNumber(permBitNames);
+        return this.permissionsAsNumber(permBitNames);
     }
 
     getMaxValue():number {
-        return Math.pow(2.0, this.getPermissionBits().size()) - 1;
-    }
-
-    isEnabled():boolean {
-        return this.enabled;
-    }
-
-    setEnabled(visible:boolean):void {
-        this.enabled = visible;
+        return Math.pow(2.0, this.permissionBits().size()) - 1;
     }
 
     /**
@@ -241,5 +233,4 @@ export class AuthorizationContext implements iAuthorizationContext {
         return new AuthorizationContext(aName, aDescription);
     }
 
-} // end class AuthorizationContext
-// export = AuthorizationContextImpl;
+}

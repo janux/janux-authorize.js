@@ -17,7 +17,6 @@ import {Role} from './Role';
  * associated roles and permissions granted
  *
  * @author  <a href="mailto:philippe.paravicini@janux.org">Philippe Paravicini</a>
- * @version $Revision: 1.8 $ - $Date: 2007-12-27 00:51:17 $
  ***************************************************************************************************
  */
 export class AuthorizationHolder implements iAuthorizationHolder
@@ -28,7 +27,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
 
     protected name:string;
     public isAlmighty:boolean;
-    protected roles: List<Role>;
+    protected _roles: List<Role>;
 
     // protected  authContexts: Dictionary<string, AuthorizationContext>;
     protected authContexts: string[];
@@ -40,16 +39,16 @@ export class AuthorizationHolder implements iAuthorizationHolder
 
     constructor(){}
 
-    getRoles(): List<Role> {
-        if (this.roles == null) { this.roles = new List<Role>(); }
-        return this.roles;
+    get roles(): List<Role> {
+        if (this._roles == null) { this._roles = new List<Role>(); }
+        return this._roles;
     }
 
-    setRoles(aggrRoles: List<Role>): void {
-        this.roles = aggrRoles;
+    set roles(aggrRoles: List<Role>) {
+        this._roles = aggrRoles;
     }
 
-    grant(permsGranted: string[]|number, authContext: AuthorizationContext): AuthorizationHolder {
+    grant(permsGranted: any, authContext: AuthorizationContext): AuthorizationHolder {
 
         if (!_.isArray(permsGranted) && !_.isNumber(permsGranted)) {
             throw new Error("You must pass either a number or an array of string permissions when granting permissions");
@@ -59,7 +58,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
             throw new Error('Attempting to assign permissions to entity ' + this.name + ' with null AuthorizationContext');
         }
 
-        var permsValue = _.isArray(permsGranted) ? authContext.getPermissionsAsNumber(permsGranted) : permsGranted;
+        var permsValue = _.isArray(permsGranted) ? authContext.permissionsAsNumber(permsGranted) : permsGranted;
 
         if ( permsValue > authContext.getMaxValue() ) {
             throw new Error( 'The permission bitmask that you are trying to assign: ' + permsValue
@@ -95,7 +94,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
         var requiredPerms = -1;
         try
         {
-            requiredPerms = authContext.getPermissionsAsNumber(permNames);
+            requiredPerms = authContext.permissionsAsNumber(permNames);
         }
         catch (e)
         {
@@ -116,7 +115,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
         return this.hasPermissions(perm, authContextName);
     }
 
-    can(permNames: string|string[], authContextName: string): boolean {
+    can(permNames: any, authContextName: string): boolean {
         if (_.isArray(permNames)) {
             return this.hasPermissions(permNames, authContextName);
         } else if (_.isString(permNames)) {

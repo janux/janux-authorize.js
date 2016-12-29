@@ -26,7 +26,7 @@ export class Role extends AuthorizationHolder implements iRole
     public name: string;
     public description: string;
     public sortOrder: number = 0;
-    private enabled: boolean = true;
+    public enabled: boolean = true;
 
     constructor(aName: string, aDescription?: string)
     {
@@ -37,14 +37,6 @@ export class Role extends AuthorizationHolder implements iRole
 
     protected setPermissionsGranted(permissionsGranted: Dictionary<string, {context: AuthorizationContext, grant: number}>): void {
         this.permissionsGranted = permissionsGranted;
-    }
-
-    isEnabled(): boolean {
-        return this.enabled;
-    }
-
-    setEnabled(enabled: boolean): void {
-        this.enabled = enabled;
     }
 
     /** static method that deserializes a Role from its canonical toJSON representation */

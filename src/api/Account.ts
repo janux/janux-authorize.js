@@ -25,35 +25,29 @@ import List = collections.LinkedList;
  * </p>
  *
  * @author  <a href="mailto:philippe.paravicini@janux.org">Philippe Paravicini</a>
- * @since 0.1
  ***************************************************************************************************
  */
 
-export interface iUser{
+export interface iAccount {
 	/** A unique name that identifies this Account - returns the same value as the getUsername inherited frmo the UserDetails interface */
-	getName(): string
-	setName(name: string ): void
+	username: string
 
 	/** A password that can be used for password authentication */
-	setPassword(password: string): void
+	password: string
 
 	/** indicates whether the account is valid and can be used */
-	setActive(enabled: boolean): void
-	getActive(): void
+	enabled: boolean
 
 	/** unlocks account */
-	setAccountLocked(b: boolean): void
+	locked: boolean
 
 	/** if not null, the date of expiration of the account */
-	getExpiration(): Date
-	setExpiration(date: Date): void
+	expire: Date
 
 	/** if not null, the date of expiration of the password */
-	getPasswordExpiration(): Date
-	setPasswordExpiration(date: Date): void
+	expirePassword: Date
 
 	/** Establish contact object (person or organization) of the user's account **/
-	setContact(contact: any): void
-	getContact(): void
+	contact: any
 }
 

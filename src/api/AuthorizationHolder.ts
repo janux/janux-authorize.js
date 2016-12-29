@@ -23,20 +23,6 @@ import {Role} from '../impl/Role';
  */
 
 export interface iAuthorizationHolder{
-	
-	/** 
-	 * Returns a map of all the AuthorizationContexts in which this AuthorizationHolder Entity has been
-	 * granted a Permission, whether directly or via a Sub-Role; the map is keyed by the
-	 * AuthorizationContext's Name
-	 */
-	// getAuthorizationContexts(): { [key:string]: AuthorizationContext; }
-	/** 
-	 * Given a AuthorizationContext, this method returns the permissions, represented as strings, that
-	 * this AuthorizationHolder Entity has in that permission context, or an empty array if the
-	 * AuthorizationHolder Entity has no permissions in that AuthorizationContext
-	 */
-	// getPermissions(authorizationContext: string): string[]
-
 
 	/** 
 	 * Given a permission context, and the names of permissions available in that context, 
@@ -54,26 +40,7 @@ export interface iAuthorizationHolder{
 	 * @since 0.5.0
 	 */
 	can(permissionName: string, authorizationContext: string): boolean
-
-
-	/** 
-	 * In the case of an implementation that uses bitmasks to store permissions, and given a
-	 * permission context and a long value representing multiple permissions available in that
-	 * context, this method returns true if this role has all the permissions indicated
-	 *
-	 * @since 0.5.0
-	 */
-	// can(permissionsValue: number, authorizationContext: string): boolean
-
-
-	/** 
-	 * In the case of an implementation that uses bitmasks to store permissions, and given a
-	 * AuthorizationContext, this method returns the permissions that this AuthorizationHolder Entity has
-	 * in that permission context, represented as a long value
-	 */
-	// getPermissionsValue(authorizationContext: string): number
-
-
+	
 	/** 
 	 * Given a permission context and a string array representing multiple permissions available in
 	 * that context, this method grants the permissions indicated to this AuthorizationHolder Entity.
@@ -97,48 +64,11 @@ export interface iAuthorizationHolder{
 	 */
 	grant(permissionsGranted: any, authorizationContext: AuthorizationContext): void
 
-	/**
-	 * Explicitly denies a set of Permissions within a AuthorizationContext; this method should be used
-	 * only to deny permissions that are inherited from Roles associated to this AuthorizationHolder
-	 * entity; this method is not meant to be used as the opposite action to method 
-	 * {@link #grant(long, AuthorizationContext)}, although it could be abused that way,
-	 * <p>
-	 * For example, assuming a Role 'PRODUCT ADMIN' that has the Permissions READ, UPDATE, CREATE, DISABLE,
-	 * PURGE in the PRODUCT Permission Context (plus possibly other Permissions in other Permission
-	 * Contexts), it may desireable to create a 'PRODUCT MANAGER' Role that has 'PRODUCT ADMIN' as its
-	 * sub-role, but denies the Permissions to CREATE and PURGE.
-	 * </p><p>
-	 * <p>
-	 * On the other hand, assume that we only have the 'PRODUCT ADMIN' Role that does not aggregate
-	 * any other Roles, and that we want to revoke its 'PURGE' Permission, in the Permission Context
-	 * 'PRODUCT'.  We could call 'deny' to do so, but this will create an 'isDeny' bitmask in
-	 * addition to the existing 'allow' bitmask one through which the 'PURGE' Permission was
-	 * originally granted. Instead, it would be simpler to call {@link #grant(long, AuthorizationContext)} 
-	 * again with the proper 'allow' bitmask that no longer enables the 'PURGE' permission.  
-	 * </p>
-	 */
-	// deny(permissionsDenied: string[], authorizationContext: AuthorizationContext): void
-
-	/** 
-	 * Same as {@link #deny(string[], AuthorizationContext)} 
-	 * but takes a single permission as an argument, rather than an array 
-	 */
-	// deny(permissionDenied: string, authorizationContext: AuthorizationContext): void
-
-	/**
-	 * Equivalent to {@link #deny(string[], AuthorizationContext)} in implementations that use
-	 * bitmasks to define permissions
-	 *
-	 * @see #deny(string[], AuthorizationContext)
-	 */
-	// deny(permissionsDenied: number, authorizationContext: AuthorizationContext): void
-
 	/** If true, this Role is a super user with all Permissions */
 	isAlmighty: boolean
 
 	/** the sub-roles that this Role aggregates */
-	getRoles(): List<Role>
-	setRoles(roles: List<Role>): void
+	roles: List<Role>
 }
 
 

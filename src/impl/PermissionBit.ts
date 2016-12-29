@@ -17,7 +17,7 @@ export class PermissionBit implements iPermissionBit {
     public label:string;
     public position:number = -1;
 
-    private authContext:iAuthorizationContext;
+    public authorizationContext:iAuthorizationContext;
     private  _sortOrder:number;
 
     constructor(name?:string, description?:string, sortOrder?:number) {
@@ -37,14 +37,6 @@ export class PermissionBit implements iPermissionBit {
 
     getValue():number {
         return Math.pow(2.0, this.position);
-    }
-
-    getAuthorizationContext():iAuthorizationContext {
-        return this.authContext;
-    }
-
-    setAuthorizationContext(bitmask:iAuthorizationContext):void {
-        this.authContext = bitmask;
     }
 
     get sortOrder():number {

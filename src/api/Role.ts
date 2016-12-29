@@ -65,22 +65,19 @@ import {Role} from '../impl/Role';
  * </pre>
  *
  * @author  <a href="mailto:philippe.paravicini@janux.org">Philippe Paravicini</a>
- * @since 0.1
  ***************************************************************************************************
  */
 
 export interface iRole extends iAuthorizationHolder {
 	/** a unique short-hand name for this role */
-	name: string;
+	name: string
 
 	/** Human readable description of this Role */
-	description: string;
+	description: string
 
 	/** default order in which this Role should be displayed in the context of a Role display */
-	sortOrder: number;
+	sortOrder: number
 
 	/** whether or not this Role is useable in the system */
-	isEnabled(): boolean
-	setEnabled(enabled: boolean): void
-
+	enabled: boolean
 }
