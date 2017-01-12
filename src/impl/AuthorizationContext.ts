@@ -196,7 +196,7 @@ export class AuthorizationContext implements iAuthorizationContext {
         var out:any = {};
         out.name = this.name;
 
-        if (!doShortVersion) {
+        if (typeof doShortVersion === 'undefined' || !doShortVersion || String(doShortVersion) === this.name) {
             out.description = this.description;
         }
 
