@@ -1,15 +1,13 @@
 'use strict';
 
-/// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../collections.ts" />
 
-import _ = require('lodash');
+import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
 import List = basarat.collections.LinkedList;
 import Dictionary = basarat.collections.Dictionary;
 import {iAuthorizationContext} from "../api/AuthorizationContext";
-import {iPermissionBit} from "../api/PermissionBit";
 import {PermissionBit} from "./PermissionBit";
 
 export class AuthorizationContext implements iAuthorizationContext {
@@ -126,7 +124,7 @@ export class AuthorizationContext implements iAuthorizationContext {
         return permValue;
     }
 
-    public permissionsAsNumber(permBitNames: string[]): number {
+    public permissionsAsNumber(permBitNames: any): number {
         if (!_.isArray(permBitNames)) {
             throw new Error ('Argument to getPermissionsAsNumber must be an array of strings');
         }

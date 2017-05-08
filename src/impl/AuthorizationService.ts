@@ -1,8 +1,6 @@
 'use strict';
 
-/// <reference path="../../typings/tsd.d.ts" />
-
-import _ = require('lodash');
+import * as _ from "lodash";
 import {AuthorizationContext} from './AuthorizationContext';
 import {PermissionBit} from './PermissionBit';
 import {Role} from './Role';

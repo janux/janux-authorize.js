@@ -1,6 +1,5 @@
 'use strict';
 
-/// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../collections.ts" />
 
 import basarat = require('../collections');
@@ -9,7 +8,7 @@ import collections = basarat.collections;
 import {iPermissionBit} from "../api/PermissionBit";
 import {iAuthorizationContext} from "../api/AuthorizationContext";
 
-import _ = require('lodash');
+import * as _ from "lodash";
 
 export class PermissionBit implements iPermissionBit {
     public name:string;

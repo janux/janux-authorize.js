@@ -1,7 +1,8 @@
-/// <reference path="../../typings/tsd.d.ts" />
+'use strict';
+
 /// <reference path="../collections.ts" />
 
-import _ = require('lodash');
+import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
 import Dictionary = collections.Dictionary;
@@ -82,7 +83,7 @@ export class AuthorizationHolder implements iAuthorizationHolder
         return this;
     }
 
-    hasPermissions(permNames: string[], authContextName: string): boolean {
+    hasPermissions(permNames: any, authContextName: string): boolean {
 
         // almighty users have all permissions for now (TODO: add 'deny' mechanism)
         if (this.isAlmighty) { return true; }

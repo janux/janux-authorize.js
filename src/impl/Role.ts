@@ -1,9 +1,8 @@
 'use strict';
 
-/// <reference path="../../typings/tsd.d.ts" />
 /// <reference path="../collections.ts" />
 
-import _ = require('lodash');
+import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
 import Dictionary = collections.Dictionary;

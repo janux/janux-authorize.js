@@ -3,11 +3,8 @@
 * Install by running:
 
 
-	$ npm install && tsd install
+	$ npm install
 
-	Note: if you don't have TypeScript Definition manager (TSD), please install by running:
-		
-		$ npm install tsd -g
 
 * Compile project and place it in the build directory:
 
