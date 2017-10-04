@@ -95,7 +95,16 @@ export class AuthorizationContext implements iAuthorizationContext {
         }
 
         permBit.label = permBit.name;
-        permBit.position = this.getMaxBitPosition() + 1;
+
+        // Position is defined, then we must use that value
+		if(permBit.position !== -1){
+			permBit.position = permBit.position;
+		}
+		// In this case we calculate the position depending on the order of the bits
+		else {
+			permBit.position = this.getMaxBitPosition() + 1;
+        }
+
         permBit.authorizationContext = this;
 
         if(permBit.sortOrder === -1){
@@ -226,11 +235,20 @@ export class AuthorizationContext implements iAuthorizationContext {
         return collections.makeString(this);
     }
 
-    /** deserializes a PermissionContext from its canonical toJSON representation */
+    /**
+     * Deserializes an AuthorizationContext from its canonical toJSON representation
+     */
     static fromJSON(obj: any): AuthorizationContext {
-        var out =  new AuthorizationContext(obj.name, obj.description); // exports.createInstance(obj.name, obj.description);
+        var out =  new AuthorizationContext(obj.name, obj.description);
         var bitlist = _.pairs(obj.bit);
-        _.each(bitlist, function(tuple) { out.addPermissionBit( new PermissionBit(tuple[0], tuple[1].description, tuple[1].sortOrder) ); });
+        _.each(bitlist, function(tuple) {
+            out.addPermissionBit(
+                new PermissionBit(tuple[0],
+                    tuple[1].description,
+                    tuple[1].sortOrder,
+                    tuple[1].position)
+            );
+        });
         return out;
     }
 

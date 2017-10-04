@@ -19,7 +19,7 @@ export class PermissionBit implements iPermissionBit {
     public authorizationContext:iAuthorizationContext;
     private  _sortOrder:number;
 
-    constructor(name?:string, description?:string, sortOrder?:number) {
+    constructor(name?:string, description?:string, sortOrder?:number, position?:number) {
 
         if(!_.isString(name)){
             throw new Error('Unable to create permissionBit with name that is not a string');
@@ -32,6 +32,7 @@ export class PermissionBit implements iPermissionBit {
         this.name =name;
         this.description = description;
         this.sortOrder = _.isNumber(sortOrder) ? sortOrder : -1;
+		this.position = _.isNumber(position) ? position : -1;
     }
 
     getValue():number {
