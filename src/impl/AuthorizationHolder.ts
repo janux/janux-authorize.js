@@ -10,6 +10,7 @@ import List = collections.LinkedList;
 import {AuthorizationContext} from './AuthorizationContext';
 import {iAuthorizationHolder} from '../api/AuthorizationHolder';
 import {Role} from './Role';
+import {PermissionBit} from "./PermissionBit";
 
 /**
  ***************************************************************************************************
@@ -126,10 +127,32 @@ export class AuthorizationHolder implements iAuthorizationHolder
         }
     }
 
+    getGrantAsBitList(authContextName: string): string[] {
+    	let perms:string[] = [];
+
+		if (!_.isString(authContextName) || authContextName.length === 0) {
+			throw new Error('Invalid authorization context name');
+		}
+
+		const permissionGranted = this.permissionsGranted.getValue(authContextName);
+
+		if(typeof permissionGranted !== 'undefined'){
+			const bitMap = permissionGranted.context.getBitMap();
+
+			bitMap.forEach((bName:string, bit:PermissionBit)=>{
+				if(this.hasPermission(bName, authContextName)) {
+					perms.push(bName);
+				}
+			});
+		}
+
+    	return perms;
+	}
+
     toJSON(): any {
         var out = _.clone(this);
         delete out.permissionsGranted;
-        delete out.isAlmighty;
+        // delete out.isAlmighty;
 
         var perm;
         // outputs permissionsGranted separately from permissionsContexts to make json msg more readable

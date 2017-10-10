@@ -63,6 +63,14 @@ export interface iAuthorizationHolder{
 	 */
 	grant(permissionsGranted: any, authorizationContext: AuthorizationContext): void
 
+	/**
+	 * Given the name of an authorization context, we obtain the arrangement of permissions
+	 * that have been granted
+	 * @param Authorization Context name
+	 * @return Array of labels representing the granted permits
+	 */
+	getGrantAsBitList(authContextName: string): string[]
+
 	/** If true, this Role is a super user with all Permissions */
 	isAlmighty: boolean
 

@@ -79,6 +79,28 @@ describe('', function () {
             assertPermissions(role);
         });
 
+		it('should obtain the list of permissions granted', function () {
+			var bitsToGrant = ['READ', 'UPDATE', 'TRASH'];
+
+			role.grant(bitsToGrant, personAuthContext);
+
+			var grantedBits = role.getGrantAsBitList(personAuthContext.name);
+
+			expect(bitsToGrant[0]).to.equal(grantedBits[0]);
+			expect(bitsToGrant[1]).to.equal(grantedBits[1]);
+			expect(bitsToGrant[2]).to.equal(grantedBits[2]);
+		});
+
+		it('should obtain empty list of permissions granted', function () {
+			var bitsToGrant = ['READ', 'UPDATE', 'TRASH'];
+
+			role.grant(bitsToGrant, personAuthContext);
+
+			var grantedBits = role.getGrantAsBitList('wrong-context');
+
+			expect(grantedBits.length).to.equal(0);
+		});
+
 		it('should have multiple role instances without collisions', function () {
             var role2 = Role.createInstance('HR2');
             role.grant(['READ', 'UPDATE', 'DELETE'], personAuthContext);

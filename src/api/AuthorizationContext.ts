@@ -70,5 +70,13 @@ export interface iAuthorizationContext {
 	 * (2 to the power of getiPermissionBits().size()) - 1
 	 */
 	getMaxValue(): number
+
+	/**
+	 * The set of permissions that this PermissionBit Set defines; note that this represents meta
+	 * information of what sort of Permissions are available to be assigned within the context of a
+	 * Busines Context and a Role, but that a PermissionBit Set does not confer any of these Permissions
+	 * per-se to any entity.
+	 */
+	getBitMap():Dictionary<string, PermissionBit>
 }
 

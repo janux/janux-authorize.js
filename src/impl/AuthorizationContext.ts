@@ -159,7 +159,7 @@ export class AuthorizationContext implements iAuthorizationContext {
      * Busines Context and a Role, but that a PermissionBit Set does not confer any of these Permissions
      * per-se to any entity.
      */
-    protected getBitMap():Dictionary<string, PermissionBit> {
+    public getBitMap():Dictionary<string, PermissionBit> {
         return this._bit;
     }
 
