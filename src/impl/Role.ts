@@ -41,11 +41,15 @@ export class Role extends AuthorizationHolder implements iRole
     /** static method that deserializes a Role from its canonical toJSON representation */
    static fromJSON(obj: any): Role {
         var out = new Role(obj.name, obj.description);
-        out.sortOrder = obj.sortOrder;
+
         _.each(obj.authContexts, (authContext:any) => {
             out.grant(obj.permissions[authContext.name].grant, AuthorizationContext.fromJSON(authContext));
         });
-        if (obj.isAlmighty) out.isAlmighty = true;
+
+        // Preserving role settings
+		out.sortOrder = obj.sortOrder;
+		out.isAlmighty = obj.isAlmighty;
+		out.enabled = obj.enabled;
 
         return out;
     }
