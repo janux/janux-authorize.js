@@ -214,6 +214,10 @@ export class AuthorizationContext implements iAuthorizationContext {
             out.description = this.description;
         }
 
+        // Preserve settings
+		out.enabled = this.enabled;
+        out.sortOrder = this.sortOrder;
+
         // _.forEach(this.bit, function (bit: PermissionBit, bName: string) {
         this._bit.forEach((bName:string, bit: PermissionBit)=>{
             out.bit = out.bit || {};
@@ -240,6 +244,11 @@ export class AuthorizationContext implements iAuthorizationContext {
      */
     static fromJSON(obj: any): AuthorizationContext {
         var out =  new AuthorizationContext(obj.name, obj.description);
+
+        // Preserve settings
+		out.enabled = obj.enabled;
+		out.sortOrder = obj.sortOrder;
+
         var bitlist = _.pairs(obj.bit);
         _.each(bitlist, function(tuple) {
             out.addPermissionBit(
