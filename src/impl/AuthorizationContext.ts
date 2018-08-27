@@ -248,7 +248,7 @@ export class AuthorizationContext implements iAuthorizationContext {
 		out.enabled = obj.enabled;
 		out.sortOrder = obj.sortOrder;
 
-        var bitlist = _.toPairs(obj.bit);
+        var bitlist = _.pairs(obj.bit);
         _.each(bitlist, function(tuple) {
             out.addPermissionBit(
                 new PermissionBit(tuple[0],
