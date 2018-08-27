@@ -5,7 +5,6 @@
 import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
-import List = basarat.collections.LinkedList;
 import Dictionary = basarat.collections.Dictionary;
 import {iAuthorizationContext} from "../api/AuthorizationContext";
 import {PermissionBit} from "./PermissionBit";
@@ -249,7 +248,7 @@ export class AuthorizationContext implements iAuthorizationContext {
 		out.enabled = obj.enabled;
 		out.sortOrder = obj.sortOrder;
 
-        var bitlist = _.pairs(obj.bit);
+        var bitlist = _.toPairs(obj.bit);
         _.each(bitlist, function(tuple) {
             out.addPermissionBit(
                 new PermissionBit(tuple[0],
