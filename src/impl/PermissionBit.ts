@@ -8,8 +8,6 @@ import collections = basarat.collections;
 import {iPermissionBit} from "../api/PermissionBit";
 import {iAuthorizationContext} from "../api/AuthorizationContext";
 
-import * as _ from "lodash";
-
 export class PermissionBit implements iPermissionBit {
     public name:string;
     public description:string;
@@ -21,7 +19,8 @@ export class PermissionBit implements iPermissionBit {
 
     constructor(name?:string, description?:string, sortOrder?:number, position?:number) {
 
-        if(!_.isString(name)){
+        // if(!_.isString(name)){
+        if(!(name instanceof String)){
             throw new Error('Unable to create permissionBit with name that is not a string');
         }else{
             if(name == ''){
@@ -31,8 +30,10 @@ export class PermissionBit implements iPermissionBit {
 
         this.name =name;
         this.description = description;
-        this.sortOrder = _.isNumber(sortOrder) ? sortOrder : -1;
-		this.position = _.isNumber(position) ? position : -1;
+        // this.sortOrder = _.isNumber(sortOrder) ? sortOrder : -1;
+        this.sortOrder = !Number.isNaN(sortOrder) ? sortOrder : -1;
+        // this.position = _.isNumber(position) ? position : -1;
+        this.position = !Number.isNaN(position) ? position : -1;
     }
 
     getValue():number {

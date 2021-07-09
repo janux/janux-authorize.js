@@ -2,7 +2,6 @@
 
 /// <reference path="../collections.ts" />
 
-import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
 import Dictionary = collections.Dictionary;
@@ -42,7 +41,8 @@ export class Role extends AuthorizationHolder implements iRole
    static fromJSON(obj: any): Role {
         var out = new Role(obj.name, obj.description);
 
-        _.each(obj.authContexts, (authContext:any) => {
+        //_.each(obj.authContexts, (authContext:any) => {
+        obj.authContexts.forEach((authContext:any) => {
             out.grant(obj.permissions[authContext.name].grant, AuthorizationContext.fromJSON(authContext));
         });
 

@@ -1,6 +1,5 @@
 'use strict';
 
-import * as _ from "lodash";
 import {AuthorizationContext} from './AuthorizationContext';
 import {PermissionBit} from './PermissionBit';
 import {Role} from './Role';
@@ -34,7 +33,7 @@ function addStandardAuthorizationContext(name, represents) {
 //
 // private variable used to setup standard permission contexts to be added
 // further below via addStandardauthorizationContext
-// 
+//
 var standardPermContextSetup: any = {
     WIDGET:    'Widget managed by the system',
     EQUIPMENT: 'Equipment used to produce a Widget',
@@ -44,7 +43,8 @@ var standardPermContextSetup: any = {
 //
 // create 'standard' permission contexts,
 //
-_.forEach(standardPermContextSetup, (represents, name)=> {
+// _.forEach(standardPermContextSetup, (represents, name)=> {
+Object.entries(standardPermContextSetup).forEach( ([represents, name])=> {
     addStandardAuthorizationContext(name, represents);
 });
 

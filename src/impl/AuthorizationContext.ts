@@ -2,7 +2,6 @@
 
 /// <reference path="../collections.ts" />
 
-import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
 import Dictionary = basarat.collections.Dictionary;
@@ -26,7 +25,8 @@ export class AuthorizationContext implements iAuthorizationContext {
     private authBitList:Dictionary<number, PermissionBit> = new Dictionary<number, PermissionBit>();
 
     constructor(aName:string, aDescription:string, permBits?: any) {
-        if (!_.isString(aName) || _.isEmpty(aName)) {
+        // if (!_.isString(aName) || _.isEmpty(aName)) {
+        if (!(aName instanceof String) || !aName) {
             throw new Error('Attempting to instantiate a PermissionContext without a name');
         }
 
@@ -118,13 +118,15 @@ export class AuthorizationContext implements iAuthorizationContext {
     public permissionAsNumber(permBitName: string): number {
         var permValue: number;
 
-        if (!_.isString(permBitName)) {
+        // if (!_.isString(permBitName)) {
+        if (!(permBitName instanceof String)) {
             throw new Error ( 'Argument to getPermissionAsNumber must be a string');
         }
 
         var bit = this._bit.getValue(permBitName);
 
-        if (!_.isObject(bit)) {
+        // if (!_.isObject(bit)) {
+        if (!(bit instanceof Object)) {
             throw new Error ('Cannot convert permission '+permBitName+' to number: it does not exist in PermissionContext '+ this.name);
         }
         permValue = Math.pow(2, bit.position);
@@ -133,7 +135,8 @@ export class AuthorizationContext implements iAuthorizationContext {
     }
 
     public permissionsAsNumber(permBitNames: any): number {
-        if (!_.isArray(permBitNames)) {
+        // if (!_.isArray(permBitNames)) {
+        if (!Array.isArray(permBitNames)) {
             throw new Error ('Argument to getPermissionsAsNumber must be an array of strings');
         }
 
@@ -141,7 +144,8 @@ export class AuthorizationContext implements iAuthorizationContext {
             return out + this.permissionAsNumber(perm);
         };
 
-        return  _.reduce(permBitNames, sumPerms, 0);
+        // return  _.reduce(permBitNames, sumPerms, 0);
+        return permBitNames.reduce(sumPerms, 0);
     }
 
     public getValue(permBitNames:string[]):number {
@@ -248,8 +252,9 @@ export class AuthorizationContext implements iAuthorizationContext {
 		out.enabled = obj.enabled;
 		out.sortOrder = obj.sortOrder;
 
-        var bitlist = _.pairs(obj.bit);
-        _.each(bitlist, function(tuple) {
+		// var bitlist = _.pairs(obj.bit);
+        var bitlist = Object.entries(obj.bit);
+        bitlist.each( (tuple) => {
             out.addPermissionBit(
                 new PermissionBit(tuple[0],
                     tuple[1].description,

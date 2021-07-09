@@ -1,7 +1,5 @@
 'use strict';
 
-import * as _ from "lodash";
-
 var
     AuthService = require('./AuthorizationService'),
     log4js = require('log4js'),
@@ -90,7 +88,8 @@ exports.findByAccountName = function findByAccountName(username, done) {
     'use strict';
     log.debug('looking up account with name "%s"', username);
     done(null,
-        _.find(users, (user:any) => { return user.account.name === username; })
+        // _.find(users, (user:any) => { return user.account.name === username; })
+        users.filter(user => user.account.name === username)
     );
 };
 
@@ -104,7 +103,8 @@ exports.authenticate = function authenticate(username, password, done) {
     exports.findByAccountName(username, (err, user) => {
         if (err) {
             return done(err);
-        } else if (_.isObject(user) && user.account.password === password) {
+        // } else if (_.isObject(user) && user.account.password === password) {
+        } else if (user instanceof Object && user.account.password === password) {
             return done(null, user);
         } else {
             var msg = util.format('Invalid username/password supplied by "%s"', username);

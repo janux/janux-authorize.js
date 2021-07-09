@@ -2,7 +2,6 @@
 
 /// <reference path="../collections.ts" />
 
-import * as _ from "lodash";
 import basarat = require('../collections');
 import collections = basarat.collections;
 import Dictionary = collections.Dictionary;
@@ -52,7 +51,8 @@ export class AuthorizationHolder implements iAuthorizationHolder
 
     grant(permsGranted: any, authContext: AuthorizationContext): AuthorizationHolder {
 
-        if (!_.isArray(permsGranted) && !_.isNumber(permsGranted)) {
+        // if (!_.isArray(permsGranted) && !_.isNumber(permsGranted)) {
+        if (!Array.isArray(permsGranted) && Number.isNaN(permsGranted)) {
             throw new Error("You must pass either a number or an array of string permissions when granting permissions");
         }
 
@@ -60,7 +60,8 @@ export class AuthorizationHolder implements iAuthorizationHolder
             throw new Error('Attempting to assign permissions to entity ' + this.name + ' with null AuthorizationContext');
         }
 
-        var permsValue = _.isArray(permsGranted) ? authContext.permissionsAsNumber(permsGranted) : permsGranted;
+        // var permsValue = _.isArray(permsGranted) ? authContext.permissionsAsNumber(permsGranted) : permsGranted;
+        var permsValue = Array.isArray(permsGranted) ? authContext.permissionsAsNumber(permsGranted) : permsGranted;
 
         if ( permsValue > authContext.getMaxValue() ) {
             throw new Error( 'The permission bitmask that you are trying to assign: ' + permsValue
@@ -90,7 +91,8 @@ export class AuthorizationHolder implements iAuthorizationHolder
         if (this.isAlmighty) { return true; }
 
         var permsGranted = this.permissionsGranted.getValue(authContextName);
-        if (!_.isObject(permsGranted)) { return false; }
+        // if (!_.isObject(permsGranted)) { return false; }
+        if (!permsGranted instanceof Object) { return false; }
 
         var authContext = permsGranted.context;
         var requiredPerms = -1;
@@ -118,9 +120,11 @@ export class AuthorizationHolder implements iAuthorizationHolder
     }
 
     can(permNames: any, authContextName: string): boolean {
-        if (_.isArray(permNames)) {
+        // if (_.isArray(permNames)) {
+        if (Array.isArray(permNames)) {
             return this.hasPermissions(permNames, authContextName);
-        } else if (_.isString(permNames)) {
+        // } else if (_.isString(permNames)) {
+        } else if (permNames instanceof String) {
             return this.hasPermission(permNames, authContextName);
         } else {
             return false;
@@ -130,7 +134,8 @@ export class AuthorizationHolder implements iAuthorizationHolder
     getGrantAsBitList(authContextName: string): string[] {
     	let perms:string[] = [];
 
-		if (!_.isString(authContextName) || authContextName.length === 0) {
+    	// if (!_.isString(authContextName) || authContextName.length === 0) {
+		if (!(authContextName instanceof String) || authContextName.length === 0) {
 			throw new Error('Invalid authorization context name');
 		}
 
@@ -150,7 +155,8 @@ export class AuthorizationHolder implements iAuthorizationHolder
 	}
 
     toJSON(): any {
-        var out = _.clone(this);
+        // var out = _.clone(this);
+        var out = Object.assign({}, this);
         delete out.permissionsGranted;
         // delete out.isAlmighty;
 
