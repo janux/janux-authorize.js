@@ -31,8 +31,9 @@ gulp.task('test', ['run-tests']);
 
 //
 // Generate documentation from typescript project
+// TODO: the gulp/node-6 typedoc task appears to be broken
 //
-gulp.task('doc', ['clean:doc', 'typedoc']);
+// gulp.task('doc', ['clean:doc', 'typedoc']);
 
 //
 // Check if typescript files has been modified and compile
