@@ -44,6 +44,3 @@ npm test         # build, then mocha
   Node 12 baseline work.
 - There is an unmerged `origin/jl-1808-updateNode12` branch from 2021
   (2 commits: Node 12 build update, remove lodash) relevant to that work.
-- The working tree carries untracked files that have not been reviewed or
-  committed: `LICENSE`, `test/Organization.spec.ts`, `test/UserService.spec.js`,
-  `test/UsersGenerator.spec.js`.
