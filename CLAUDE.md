@@ -39,6 +39,9 @@ npm test         # build, then mocha
 - Standalone library — no internal janux dependencies.
 - Output in `dist/`.
 - Git branch: `develop`, remote: github.com/janux/janux-authorize.js
+- Not yet tagged for a published version (the currently-published `1.0.0`
+  predates this convention). Once republished, tag the published commit
+  `vX.Y.Z` — see `janux/CLAUDE.md`, "Tag every published commit".
 - **TypeScript 2.4.2 is the oldest compiler in the janux set** (people is on
   3.1.8, persist on 4.9.5). Standardizing all three is planned as part of the
   Node 12 baseline work.
