@@ -14,29 +14,17 @@
 		"lodash": "3.10.1"
 	},
 	"devDependencies": {
-		"@types/express": "4.0.35",
 		"@types/lodash": "3.10.1",
 		"@types/node": "4.0.29",
-		"amdefine": "1.0.0",
-		"express": "4.13.4",
-		"browserify": "12.0.2",
 		"chai": "3.5.0",
 		"config": "1.20.1",
 		"mocha": "2.4.5",
-		"vinyl-source-stream": "1.1.0",
 		"log4js": "0.6.35",
-		"del": "2.2.0",
-		"gulp": "3.9.1",
-		"gulp-concat": "2.6.0",
-		"gulp-mocha": "2.2.0",
-		"gulp-sourcemaps": "1.6.0",
-		"gulp-tslint": "3.6.0",
-		"gulp-typedoc": "1.2.1",
-		"gulp-typescript": "3.1.6",
-		"typescript": "2.4.2",
-		"require-dir": "0.3.0"
+		"typescript": "2.4.2"
 	},
 	"scripts": {
-		"build": "gulp default"
+		"build": "tsc -p tsconfig.json",
+		"test": "npm run build && mocha test/AuthorizationContext.spec.js test/AuthorizationHolder.spec.js test/AuthorizationService.spec.js test/Role.spec.js test/User.spec.js test/UserServiceMock.spec.js --timeout 10000",
+		"watch": "tsc -p tsconfig.json --watch"
 	}
 }
