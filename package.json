@@ -1,6 +1,15 @@
 {
 	"name": "janux-authorize",
 	"version": "1.0.0",
+	"main": "index.js",
+	"files": [
+		"dist",
+		"index.js",
+		"LICENSE"
+	],
+	"publishConfig": {
+		"registry": "https://registry.januxmedia.com/"
+	},
 	"keywords": [
 		"util",
 		"functional",
