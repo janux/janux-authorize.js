@@ -1,0 +1,290 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      lodash:
+        specifier: 3.10.1
+        version: 3.10.1
+    devDependencies:
+      '@types/lodash':
+        specifier: 3.10.1
+        version: 3.10.1
+      '@types/node':
+        specifier: 4.0.29
+        version: 4.0.29
+      chai:
+        specifier: 3.5.0
+        version: 3.5.0
+      config:
+        specifier: 1.20.1
+        version: 1.20.1
+      log4js:
+        specifier: 0.6.35
+        version: 0.6.35
+      mocha:
+        specifier: 2.4.5
+        version: 2.4.5
+      typescript:
+        specifier: 2.4.2
+        version: 2.4.2
+
+packages:
+
+  '@types/lodash@3.10.1':
+    resolution: {integrity: sha1-74yMNWSfB4hOD7d2OyS6r34XXDY=, tarball: https://registry.januxmedia.com/@types%2flodash/-/lodash-3.10.1.tgz}
+
+  '@types/node@4.0.29':
+    resolution: {integrity: sha1-JuAvRb/zf9UMxL/AVFkvY0qd658=, tarball: https://registry.januxmedia.com/@types%2fnode/-/node-4.0.29.tgz}
+
+  assertion-error@1.1.0:
+    resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
+
+  chai@3.5.0:
+    resolution: {integrity: sha1-TQJjewZ/6Vi9v906QOxW/vc3Mkc=}
+    engines: {node: '>= 0.4.0'}
+
+  commander@0.6.1:
+    resolution: {integrity: sha512-0fLycpl1UMTGX257hRsu/arL/cUbcvQM4zMKwvLvzXtfdezIV4yotPS2dYtknF+NmEfWSoCEF6+hj9XLm/6hEw==}
+    engines: {node: '>= 0.4.x'}
+
+  commander@2.3.0:
+    resolution: {integrity: sha512-CD452fnk0jQyk3NfnK+KkR/hUPoHt5pVaKHogtyyv3N0U4QfAal9W0/rXLOg/vVZgQKa7jdtXypKs1YAip11uQ==}
+    engines: {node: '>= 0.6.x'}
+
+  config@1.20.1:
+    resolution: {integrity: sha1-zHrCk0SB8e9EUOpqX8P9M6xNJos=}
+    engines: {node: '>0.4.x'}
+
+  core-util-is@1.0.3:
+    resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+
+  debug@2.2.0:
+    resolution: {integrity: sha1-+HBX6ZWxofauaklgZkE3vFbwOdo=}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  deep-eql@0.1.3:
+    resolution: {integrity: sha512-6sEotTRGBFiNcqVoeHwnfopbSpi5NbH1VWJmYCVkmxMmaVTT0bUTrNaGyBwhgP4MZL012W/mkzIn3Da+iDYweg==}
+
+  diff@1.4.0:
+    resolution: {integrity: sha1-fyjS657nsVqX79ic5j3P2qPMur8=}
+    engines: {node: '>=0.3.1'}
+
+  escape-string-regexp@1.0.2:
+    resolution: {integrity: sha512-cQpUid7bdTUnFin8S7BnNdOk+/eDqQmKgCANSyd/jAhrKEvxUvr9VQ8XZzXiOtest8NLfk3FSBZzwvemZNQ6Vg==}
+    engines: {node: '>=0.8.0'}
+
+  glob@3.2.3:
+    resolution: {integrity: sha1-4xPusknHr/qlxHUoaw4RW1mDlGc=}
+
+  graceful-fs@2.0.3:
+    resolution: {integrity: sha1-fNLNsiiko/Nule+mzBQt59GhNtA=}
+    engines: {node: '>=0.4.0'}
+    deprecated: please upgrade to graceful-fs 4 for compatibility with current and future versions of Node.js
+
+  growl@1.8.1:
+    resolution: {integrity: sha1-Sy3sjZB+k9szZiTc7AGDUC+MlCg=}
+
+  inherits@2.0.4:
+    resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+
+  isarray@0.0.1:
+    resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
+
+  jade@0.26.3:
+    resolution: {integrity: sha512-mkk3vzUHFjzKjpCXeu+IjXeZD+QOTjUUdubgmHtHTDwvAO2ZTkMTTVrapts5CWz3JvJryh/4KWZpjeZrCepZ3A==}
+    deprecated: Jade has been renamed to pug, please install the latest version of pug instead of jade
+    hasBin: true
+
+  json5@0.4.0:
+    resolution: {integrity: sha512-5EEuuI7oad0d6c2PcrTRLoLH2JNuI/aJxHsVT2hVFK6fKHu+MXONdhzzzNAlb3JXMeuN1o+kDU78fV1YH6VmKQ==}
+    hasBin: true
+
+  lodash@3.10.1:
+    resolution: {integrity: sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=}
+
+  log4js@0.6.35:
+    resolution: {integrity: sha512-6XCKhTh7zX/fE/Qp0Kb7d+1u2mg30u5hcpJzklw1c6NfRd+lNYChpAAW5ZOzzS3KMtXK/6unbxdk206QQWeMIg==}
+    engines: {node: '>=0.8'}
+    deprecated: 0.x is no longer supported. Please upgrade to 6.x or higher.
+
+  lru-cache@2.7.3:
+    resolution: {integrity: sha512-WpibWJ60c3AgAz8a2iYErDrcT2C7OmKnsWhIcHOjkUHFjkXncJhtLxNSqUmxRxRunpb5I8Vprd7aNSd2NtksJQ==}
+
+  minimatch@0.2.14:
+    resolution: {integrity: sha512-zZ+Jy8lVWlvqqeM8iZB7w7KmQkoJn8djM585z88rywrEbzoqawVa9FR5p2hwD+y74nfuKOjmNvi9gtWJNLqHvA==}
+    deprecated: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+
+  minimist@0.0.8:
+    resolution: {integrity: sha512-miQKw5Hv4NS1Psg2517mV4e4dYNaO3++hjAvLOAzKqZ61rH8NS1SK+vbfBWZ5PY/Me/bEWhUwqMghEW5Fb9T7Q==}
+
+  mkdirp@0.3.0:
+    resolution: {integrity: sha512-OHsdUcVAQ6pOtg5JYWpCBo9W/GySVuwvP9hueRMW7UqshC0tbfzLv8wjySTPm3tfUZ/21CE9E1pJagOA91Pxew==}
+    deprecated: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
+
+  mkdirp@0.5.1:
+    resolution: {integrity: sha512-SknJC52obPfGQPnjIkXbmA6+5H15E+fR+E4iR2oQ3zzCLbd7/ONua69R/Gw7AgkTLsRG+r5fzksYwWe1AgTyWA==}
+    deprecated: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
+    hasBin: true
+
+  mocha@2.4.5:
+    resolution: {integrity: sha1-FRdo3Sh161G8gpXpgAAm6fK7OY8=}
+    engines: {node: '>= 0.8.x'}
+    hasBin: true
+
+  ms@0.7.1:
+    resolution: {integrity: sha1-nNE8A62/8ltl7/3nzoZO6VIBcJg=}
+
+  readable-stream@1.0.34:
+    resolution: {integrity: sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=}
+
+  semver@4.3.6:
+    resolution: {integrity: sha1-MAvG4OhjdPe6YQaLWx7NV/xlMto=}
+    hasBin: true
+
+  sigmund@1.0.1:
+    resolution: {integrity: sha512-fCvEXfh6NWpm+YSuY2bpXb/VIihqWA6hLsgboC+0nl71Q7N7o2eaCW8mJa/NLvQhs6jpd3VZV4UiUQlV6+lc8g==}
+
+  string_decoder@0.10.31:
+    resolution: {integrity: sha512-ev2QzSzWPYmy9GuqfIVildA4OdcGLeFZQrq5ys6RtiuF+RQQiZWr8TZNyAcuVXyQRYfEO+MsoB/1BuQVhOJuoQ==}
+
+  supports-color@1.2.0:
+    resolution: {integrity: sha1-/x7R5hFp0Gs88tWI4YixjYhH4X4=}
+    engines: {node: '>=0.10.0'}
+    hasBin: true
+
+  type-detect@0.1.1:
+    resolution: {integrity: sha1-C6XsKohWQORw6k6FBZcZANrFiCI=}
+
+  type-detect@1.0.0:
+    resolution: {integrity: sha1-diIXzAbbJY7EiQihKY6LlRIejqI=}
+
+  typescript@2.4.2:
+    resolution: {integrity: sha1-+DlfhdRZJ2BnyYiqQYN6j4KHCEQ=}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+
+snapshots:
+
+  '@types/lodash@3.10.1': {}
+
+  '@types/node@4.0.29': {}
+
+  assertion-error@1.1.0: {}
+
+  chai@3.5.0:
+    dependencies:
+      assertion-error: 1.1.0
+      deep-eql: 0.1.3
+      type-detect: 1.0.0
+
+  commander@0.6.1: {}
+
+  commander@2.3.0: {}
+
+  config@1.20.1:
+    dependencies:
+      json5: 0.4.0
+
+  core-util-is@1.0.3: {}
+
+  debug@2.2.0(supports-color@1.2.0):
+    dependencies:
+      ms: 0.7.1
+    optionalDependencies:
+      supports-color: 1.2.0
+
+  deep-eql@0.1.3:
+    dependencies:
+      type-detect: 0.1.1
+
+  diff@1.4.0: {}
+
+  escape-string-regexp@1.0.2: {}
+
+  glob@3.2.3:
+    dependencies:
+      graceful-fs: 2.0.3
+      inherits: 2.0.4
+      minimatch: 0.2.14
+
+  graceful-fs@2.0.3: {}
+
+  growl@1.8.1: {}
+
+  inherits@2.0.4: {}
+
+  isarray@0.0.1: {}
+
+  jade@0.26.3:
+    dependencies:
+      commander: 0.6.1
+      mkdirp: 0.3.0
+
+  json5@0.4.0: {}
+
+  lodash@3.10.1: {}
+
+  log4js@0.6.35:
+    dependencies:
+      readable-stream: 1.0.34
+      semver: 4.3.6
+
+  lru-cache@2.7.3: {}
+
+  minimatch@0.2.14:
+    dependencies:
+      lru-cache: 2.7.3
+      sigmund: 1.0.1
+
+  minimist@0.0.8: {}
+
+  mkdirp@0.3.0: {}
+
+  mkdirp@0.5.1:
+    dependencies:
+      minimist: 0.0.8
+
+  mocha@2.4.5:
+    dependencies:
+      commander: 2.3.0
+      debug: 2.2.0(supports-color@1.2.0)
+      diff: 1.4.0
+      escape-string-regexp: 1.0.2
+      glob: 3.2.3
+      growl: 1.8.1
+      jade: 0.26.3
+      mkdirp: 0.5.1
+      supports-color: 1.2.0
+
+  ms@0.7.1: {}
+
+  readable-stream@1.0.34:
+    dependencies:
+      core-util-is: 1.0.3
+      inherits: 2.0.4
+      isarray: 0.0.1
+      string_decoder: 0.10.31
+
+  semver@4.3.6: {}
+
+  sigmund@1.0.1: {}
+
+  string_decoder@0.10.31: {}
+
+  supports-color@1.2.0: {}
+
+  type-detect@0.1.1: {}
+
+  type-detect@1.0.0: {}
+
+  typescript@2.4.2: {}
