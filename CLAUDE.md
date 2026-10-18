@@ -38,13 +38,26 @@ npm test         # build, then mocha
 
 - Standalone library — no internal janux dependencies.
 - Output in `dist/`.
-- Git branch: `develop`, remote: github.com/janux/janux-authorize.js
-- Not yet tagged for a published version (the currently-published `1.0.0`
-  predates this convention). Follow `/VERSIONING.md` (workspace root) for
-  any future publish, including tagging the final published commit
-  `vX.Y.Z`.
+- Git branches: `develop` is the working branch and `main` is kept in step
+  with it; both are on github.com/janux/janux-authorize.js.
+- **Tagged `v1.0.0` on `2e447a7`**, the `gitHead` the registry records for
+  the published 1.0.0. Nothing in `src/` or the compiled `dist/` has changed
+  since: later commits only moved the build from gulp to `tsc` (which also
+  emits `.d.ts` files), trimmed the tarball, and added docs and the MIT
+  `LICENSE`. There is no 1.0.1 and no reason for one. Follow
+  `/VERSIONING.md` (workspace root) for any publish.
 - **TypeScript 2.4.2 is the oldest compiler in the janux set** (people is on
-  3.1.8, persist on 4.9.5). Standardizing all three is planned as part of the
-  Node 12 baseline work.
-- There is an unmerged `origin/jl-1808-updateNode12` branch from 2021
-  (2 commits: Node 12 build update, remove lodash) relevant to that work.
+  3.1.8, persist on 4.9.5). 1.x stays as it is; janux 2.0 moves to
+  TypeScript 5 (JAM-127).
+- **lodash 3.10.1 is a runtime dependency that `npm audit` flags as critical**
+  (prototype pollution, command injection). Authorize only calls type checks,
+  iteration, `reduce`, `pairs`, `find`, `clone` and `isEmpty`, none of the
+  vulnerable functions, so it is not exploitable through this package.
+  janux 2.0 removes lodash (JAM-128).
+- **The test `User` is a mixin**, not a subclass: `test/User.js` copies
+  `AuthorizationHolder`'s prototype onto a plain function with
+  `tools.extend`. That never runs the holder's constructor, so the fixture
+  creates `permissionsGranted` itself. Without it `toJSON()`, `%j` logging
+  and `hasPermissions()` throw. `tools.extend` also evaluates the lazy
+  `roles` getter on the prototype, making every mixin instance share one
+  roles list. No consumer uses the mixin; first-class support is JAM-130.
